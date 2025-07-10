@@ -27,6 +27,76 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
   }
 });
 
+// Helper function to safely parse dates
+function parseDate(dateStr: string | null | undefined): string | null {
+  if (!dateStr || dateStr.trim() === '') {
+    return null;
+  }
+  try {
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) {
+      return null;
+    }
+    return date.toISOString();
+  } catch {
+    return null;
+  }
+}
+
+// Helper function to safely convert values to strings
+function safeStringValue(value: any): string | null {
+  if (value === null || value === undefined) {
+    return null;
+  }
+  if (typeof value === 'string') {
+    return value.trim() || null;
+  }
+  if (typeof value === 'number') {
+    return value.toString();
+  }
+  // For any other type, convert to string and trim
+  try {
+    const stringValue = String(value).trim();
+    return stringValue || null;
+  } catch {
+    return null;
+  }
+}
+
+// Helper function to validate and clean sponsor data (re-used for legislators)
+function validateLegislatorData(member: any): { isValid: boolean; reason?: string; cleanedMember?: any } {
+  // Check for required fields that are NOT NULL in the database
+  if (!member.bioguideId) {
+    return { isValid: false, reason: 'Missing bioguideId' };
+  }
+  if (!member.fullName) {
+    return { isValid: false, reason: 'Missing fullName' };
+  }
+  // Party, state, and chamber might be missing for some historical members or edge cases
+  // We'll provide fallbacks for these in the upsert data
+
+  const cleanedMember = {
+    bioguideId: safeStringValue(member.bioguideId) || '',
+    fullName: safeStringValue(member.fullName) || '',
+    firstName: safeStringValue(member.firstName) || null,
+    lastName: safeStringValue(member.lastName) || null,
+    party: safeStringValue(member.partyHistory?.[0]?.partyName) || 'Unknown',
+    state: safeStringValue(member.state) || 'Unknown',
+    chamber: safeStringValue(member.terms?.[0]?.chamber) || 'Unknown',
+    congressStartDate: member.terms?.[0]?.start || null,
+    congressEndDate: member.terms?.[member.terms.length - 1]?.end || null,
+    url: safeStringValue(member.url) || null,
+    imageUrl: safeStringValue(member.depiction?.imageUrl) || null,
+  };
+
+  // Final validation after cleaning for critical NOT NULL fields
+  if (!cleanedMember.bioguideId || !cleanedMember.fullName || !cleanedMember.party || !cleanedMember.state || !cleanedMember.chamber) {
+    return { isValid: false, reason: 'Critical fields became empty after cleaning' };
+  }
+
+  return { isValid: true, cleanedMember };
+}
+
 async function fetchWithRetry(url: string): Promise<Response> {
   let lastError: any = null;
   let attempts = 0;
@@ -92,6 +162,55 @@ async function fetchWithRetry(url: string): Promise<Response> {
   }
 }
 
+async function acquireLock(lockKey: string, timeoutMs = 5000): Promise<boolean> {
+  const startTime = Date.now();
+  try {
+    // First clean up any stale locks
+    const staleTimeout = new Date();
+    staleTimeout.setMinutes(staleTimeout.getMinutes() - 5);
+    await supabase.from('system_locks').delete().lt('locked_at', staleTimeout.toISOString());
+
+    // Try to acquire the lock
+    const { error } = await supabase.from('system_locks').insert({ lock_key: lockKey });
+
+    if (!error) {
+      console.log(`Lock acquired: ${lockKey}`);
+      return true;
+    }
+
+    // If lock exists, wait and retry until timeout
+    while (Date.now() - startTime < timeoutMs) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { data: existingLock } = await supabase.from('system_locks').select('locked_at').eq('lock_key', lockKey).single();
+      if (!existingLock) {
+        const { error: retryError } = await supabase.from('system_locks').insert({ lock_key: lockKey });
+        if (!retryError) {
+          console.log(`Lock acquired after retry: ${lockKey}`);
+          return true;
+        }
+      }
+    }
+    console.log(`Failed to acquire lock: ${lockKey} (timeout)`);
+    return false;
+  } catch (error) {
+    console.error('Error acquiring lock:', error);
+    return false;
+  }
+}
+
+async function releaseLock(lockKey: string): Promise<void> {
+  try {
+    const { error } = await supabase.from('system_locks').delete().eq('lock_key', lockKey);
+    if (error) {
+      console.error('Error releasing lock:', error);
+    } else {
+      console.log(`Lock released: ${lockKey}`);
+    }
+  } catch (error) {
+    console.error('Error releasing lock:', error);
+  }
+}
+
 async function importLegislators(startCongress = '119', endCongress = '100'): Promise<any> {
   const lockKey = `import_legislators_${startCongress}_${endCongress}`;
   // Acquire lock to prevent concurrent runs
@@ -142,18 +261,26 @@ async function importLegislators(startCongress = '119', endCongress = '100'): Pr
 
         await Promise.all(batch.map(async (member) => {
           try {
+            const validation = validateLegislatorData(member);
+            if (!validation.isValid) {
+              console.warn(`Skipping invalid legislator ${member.bioguideId || member.fullName || 'Unknown'}: ${validation.reason}`);
+              errors.push(`Legislator ${member.bioguideId || member.fullName || 'Unknown'}: ${validation.reason}`);
+              return;
+            }
+            const cleanedMember = validation.cleanedMember;
+
             const legislatorData = {
-              bioguide_id: member.bioguideId,
-              full_name: member.fullName,
-              first_name: member.firstName,
-              last_name: member.lastName,
-              party: member.partyHistory?.[0]?.partyName,
-              state: member.state,
-              chamber: member.terms?.[0]?.chamber,
-              congress_start_date: member.terms?.[0]?.start, // First term start date
-              congress_end_date: member.terms?.[member.terms.length - 1]?.end, // Last term end date
-              url: member.url,
-              image_url: member.depiction?.imageUrl, // Assuming depiction exists
+              bioguide_id: cleanedMember.bioguideId,
+              full_name: cleanedMember.fullName,
+              first_name: cleanedMember.firstName,
+              last_name: cleanedMember.lastName,
+              party: cleanedMember.party,
+              state: cleanedMember.state,
+              chamber: cleanedMember.chamber,
+              congress_start_date: cleanedMember.congressStartDate,
+              congress_end_date: cleanedMember.congressEndDate,
+              url: cleanedMember.url,
+              image_url: cleanedMember.imageUrl,
               last_updated: new Date().toISOString()
             };
 
@@ -165,15 +292,12 @@ async function importLegislators(startCongress = '119', endCongress = '100'): Pr
               console.error(`Error upserting legislator ${member.bioguideId}:`, upsertError);
               errors.push(`${member.bioguideId}: ${upsertError.message}`);
             } else {
-              if (upsertError === null) { // Check if it was an insert or update
-                // Supabase upsert doesn't directly return if it was insert/update without select
-                // We can infer based on whether bioguide_id existed before
-                const { data: existing } = await supabase.from('legislators').select('bioguide_id').eq('bioguide_id', member.bioguideId).single();
-                if (existing) {
-                  totalUpdated++;
-                } else {
-                  totalImported++;
-                }
+              // Check if it was an insert or update (requires a separate select after upsert)
+              const { data: existing } = await supabase.from('legislators').select('bioguide_id').eq('bioguide_id', member.bioguideId).single();
+              if (existing) {
+                totalUpdated++;
+              } else {
+                totalImported++;
               }
               console.log(`✓ Upserted legislator ${member.fullName} (${member.bioguideId})`);
             }

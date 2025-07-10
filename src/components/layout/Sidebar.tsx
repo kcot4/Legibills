@@ -271,7 +271,7 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
       {/* Buy me a coffee */}
       <div className="p-4">
         <motion.a
-          href="https://www.buymeacoffee.com"
+          href="coff.ee/legibills"
           target="_blank"
           rel="noopener noreferrer"
           whileHover={{ scale: 1.02 }}

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Bell, UserCircle } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Bell, UserCircle, Search as SearchIcon } from 'lucide-react'; // Renamed Search to SearchIcon
 import { motion } from 'framer-motion';
 import SearchHeader from './SearchHeader';
 import SortDropdown, { SortOption } from './SortDropdown';
@@ -14,6 +14,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ setShowAuthModal }) => {
   const { sortBy, setSortBy } = useBillContext();
   const [session, setSession] = React.useState<any>(null);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -33,6 +34,10 @@ const Navbar: React.FC<NavbarProps> = ({ setShowAuthModal }) => {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
+  };
+
+  const handleSearchIconClick = () => {
+    navigate('/search');
   };
 
   return (
@@ -58,8 +63,8 @@ const Navbar: React.FC<NavbarProps> = ({ setShowAuthModal }) => {
             </div>
           </Link>
 
-          {/* Center section with search and sort */}
-          <div className="flex items-center space-x-4 flex-1 max-w-4xl mx-4">
+          {/* Center section with search and sort - hidden on mobile */}
+          <div className="hidden md:flex items-center space-x-4 flex-1 max-w-4xl mx-4">
             {/* Unified Search Header */}
             <SearchHeader />
             
@@ -72,6 +77,15 @@ const Navbar: React.FC<NavbarProps> = ({ setShowAuthModal }) => {
 
           {/* Right navigation items */}
           <div className="flex items-center space-x-3">
+            {/* Mobile Search Icon */}
+            <button
+              onClick={handleSearchIconClick}
+              className="md:hidden text-gray-500 hover:text-primary-600 p-1"
+              aria-label="Search"
+            >
+              <SearchIcon size={20} />
+            </button>
+
             {session ? (
               <button
                 onClick={handleSignOut}

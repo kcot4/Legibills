@@ -399,10 +399,6 @@ function processCommittees(committeeList: any[]): any[] {
             activityType = 'markup';
           } else if (activityName.includes('reported')) {
             activityType = 'reported';
-          } else if (activityName.includes('discharged')) {
-            activityType = 'discharged';
-          } else if (activityName.includes('hearing')) {
-            activityType = 'hearing';
           }
 
           let chamber = 'house';
@@ -573,7 +569,7 @@ function validateAndNormalizeDates(params: { bill: any; detailData: any; actions
 }
 
 // Updated determineCategory function to use mapped status
-function determineCategory(bill: any, mappedStatus: string): string {
+function determineCategory(bill: any, mappedStatus: string, actions: any[]): string {
   const daysAgo = (date: string) => {
     const diff = Date.now() - new Date(date).getTime();
     return Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -584,8 +580,20 @@ function determineCategory(bill: any, mappedStatus: string): string {
     return 'enacted';
   }
 
+  // Check for trending bills (recent activity)
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+  const recentActionsCount = (actions || []).filter((action: any) => {
+    return new Date(action.date) > thirtyDaysAgo;
+  }).length;
+
+  if (recentActionsCount >= 3) {
+    return 'trending';
+  }
+
   // Check if bill was introduced recently
-  if (daysAgo(bill.introducedDate) <= 30) {
+  if (bill.introducedDate && daysAgo(bill.introducedDate) <= 30) {
     return 'recent';
   }
 
@@ -594,8 +602,8 @@ function determineCategory(bill: any, mappedStatus: string): string {
     return 'upcoming';
   }
 
-  // Default to trending for other bills
-  return 'trending';
+  // Default fallback
+  return 'trending'; // Default to trending if no other category fits
 }
 
 async function importBills(startCongress = '119', endCongress = '119'): Promise<any> {
@@ -631,12 +639,16 @@ async function importBills(startCongress = '119', endCongress = '119'): Promise<
             nextMonth.setMonth(nextMonth.getMonth() + 1);
             const toDateTime = nextMonth < congressEndDate ? nextMonth : congressEndDate;
 
+            // Format dates to YYYY-MM-DDTHH:MM:SSZ
+            const formattedFromDateTime = currentStartDate.toISOString().slice(0, 19) + 'Z';
+            const formattedToDateTime = toDateTime.toISOString().slice(0, 19) + 'Z';
+
             let offset = 0;
             const limit = 250;
             let hasMoreInDateRange = true;
 
             while (hasMoreInDateRange) {
-              const url = `${CONGRESS_API_URL}/bill/${congress}/${type}?fromDateTime=${currentStartDate.toISOString()}&toDateTime=${toDateTime.toISOString()}&sort=updateDate+desc&limit=${limit}&offset=${offset}&api_key=${CONGRESS_API_KEY}`;
+              const url = `${CONGRESS_API_URL}/bill/${congress}/${type}?fromDateTime=${formattedFromDateTime}&toDateTime=${formattedToDateTime}&sort=updateDate+desc&limit=${limit}&offset=${offset}&api_key=${CONGRESS_API_KEY}`;
               console.log(`Fetching bills from: ${url}`);
               const response = await fetchWithRetry(url);
               const data = await response.json();
@@ -710,7 +722,7 @@ async function importBills(startCongress = '119', endCongress = '119'): Promise<
                   congress,
                   bill_type: type.toUpperCase(),
                   bill_number: bill.number.toString(),
-                  category: determineCategory(bill, mappedStatus),
+                  category: determineCategory(bill, mappedStatus, sortedActions), // Pass actions
                   updated_at: new Date().toISOString()
                 };
 
