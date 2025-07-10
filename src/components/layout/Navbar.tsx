@@ -53,8 +53,8 @@ const Navbar: React.FC<NavbarProps> = ({ setShowAuthModal }) => {
               </svg>
             </motion.div>
             <div className="flex flex-col">
-              <span className="font-bold text-xl text-primary-950">Clear Bill</span>
-              <span className="text-xs text-gray-500 -mt-1">Simplified Bills & Laws</span>
+              <span className="font-bold text-xl text-primary-950">Legibills</span>
+              <span className="text-xs text-gray-500 -mt-1">Legible Legislature</span>
             </div>
           </Link>
 

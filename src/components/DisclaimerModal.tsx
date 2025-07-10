@@ -49,7 +49,7 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ isOpen, onClose }) =>
                   </div>
                   <div>
                     <h2 className="text-xl font-bold">Important Disclaimer</h2>
-                    <p className="text-primary-100 text-sm">Please read before using Clear Bill</p>
+                    <p className="text-primary-100 text-sm">Please read before using Legibills</p>
                   </div>
                 </div>
                 <button
@@ -71,7 +71,7 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ isOpen, onClose }) =>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-2">Not a Government Website</h3>
                     <p className="text-gray-700 text-sm leading-relaxed">
-                      <strong>Clear Bill is an independent, non-governmental website.</strong> This site is not 
+                      <strong>Legibills is an independent, non-governmental website.</strong> This site is not 
                       affiliated with, endorsed by, or operated by the U.S. Government, Congress, or any 
                       government agency. For official information, please visit official government sources.
                     </p>
