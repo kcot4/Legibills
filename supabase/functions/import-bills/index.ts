@@ -692,7 +692,7 @@ async function importBills(startCongress = '119', endCongress = '119'): Promise<
                     console.log(`Fetching detailed data for ${billNumber} because summary is missing.`);
                     const detailUrl = `${CONGRESS_API_URL}/bill/${congress}/${type}/${bill.number}?api_key=${CONGRESS_API_KEY}`;
                     const detailResponse = await fetchWithRetry(detailUrl);
-                    detailData = await detailResponse.json();
+                    detailData = await detailData.json();
                 }
 
                 const sponsors = await fetchBillSponsors(congress, type, bill.number, detailData.bill);
@@ -831,6 +831,40 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Admin check
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(JSON.stringify({ status: 'error', message: 'Unauthorized: Missing Authorization header' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+    if (authError || !user) {
+      console.error('Authentication error:', authError?.message);
+      return new Response(JSON.stringify({ status: 'error', message: 'Unauthorized: Invalid token' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    const { data: profile, error: profileError } = await supabase
+      .from('user_profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    if (profileError || profile?.role !== 'admin') {
+      console.error('Authorization error: User is not admin', profileError?.message);
+      return new Response(JSON.stringify({ status: 'error', message: 'Forbidden: Admin access required' }), {
+        status: 403,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
     console.log('Edge function invoked with URL:', req.url);
     const url = new URL(req.url);
     const startCongress = url.searchParams.get('startCongress') || '119';

@@ -9,14 +9,15 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
-  const { userPreferences, bills } = useBillContext();
+  const { userPreferences, bills, userRole } = useBillContext(); // Destructure userRole
 
   const navItems = [
     { icon: <Home size={20} />, label: 'Dashboard', path: '/' },
     { icon: <Search size={20} />, label: 'Search', path: '/search' },
     { icon: <Bell size={20} />, label: 'My Alerts', path: '/alerts' },
     { icon: <Bookmark size={20} />, label: 'Saved Bills', path: '/saved' },
-     { icon: <Users size={20} />, label: 'Track Legislators', path: '/track-legislators' },
+    { icon: <Users size={20} />, label: 'Track Legislators', path: '/track-legislators' },
+    { icon: <BarChart size={20} />, label: 'Analytics', path: '/analytics' },
   ];
 
   const adminItems = [
@@ -101,31 +102,33 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
           </div>
         </div>
 
-        <div className="space-y-2">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            Administration
-          </h3>
-          
-          <div className="space-y-1">
-            {adminItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                    isActive
-                      ? 'bg-primary-50 text-primary-700'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`
-                }
-                onClick={() => toggleSidebar()}
-              >
-                <span className="mr-3">{item.icon}</span>
-                {item.label}
-              </NavLink>
-            ))}
+        {userRole === 'admin' && ( // Conditionally render admin items
+          <div className="space-y-2">
+            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Administration
+            </h3>
+            
+            <div className="space-y-1">
+              {adminItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                      isActive
+                        ? 'bg-primary-50 text-primary-700'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`
+                  }
+                  onClick={() => toggleSidebar()}
+                >
+                  <span className="mr-3">{item.icon}</span>
+                  {item.label}
+                </NavLink>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="space-y-2">
           <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex justify-between">

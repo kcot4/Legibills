@@ -18,6 +18,7 @@ interface BillContextType {
   getSortedBills: () => Bill[];
   loadingProgress: number;
   connectionStatus: 'unknown' | 'connected' | 'disconnected' | 'error';
+  userRole: 'user' | 'admin' | null; // New: User role
 }
 
 const defaultPreferences: UserPreferences = {
@@ -97,7 +98,8 @@ const BillContext = createContext<BillContextType>({
   setSortBy: () => {},
   getSortedBills: () => [],
   loadingProgress: 0,
-  connectionStatus: 'unknown'
+  connectionStatus: 'unknown',
+  userRole: null, // Default user role
 });
 
 export const BillProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -108,6 +110,42 @@ export const BillProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [userPreferences, setUserPrefs] = useState<UserPreferences>(loadPreferences);
   const [sortBy, setSortByState] = useState<SortOption>(loadSortPreference);
   const [connectionStatus, setConnectionStatus] = useState<'unknown' | 'connected' | 'disconnected' | 'error'>('unknown');
+  const [userRole, setUserRole] = useState<'user' | 'admin' | null>(null); // New state for user role
+
+  // Fetch user role on auth state change
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile, error } = await supabase
+          .from('user_profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+
+        if (error) {
+          console.error('Error fetching user role:', error);
+          setUserRole(null);
+        } else if (profile) {
+          setUserRole(profile.role as 'user' | 'admin');
+        } else {
+          setUserRole('user'); // Default to user if no profile found
+        }
+      }
+    };
+
+    fetchUserRole();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        fetchUserRole(); // Re-fetch role on auth state change
+      } else {
+        setUserRole(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const refreshBills = useCallback(async () => {
     try {
@@ -221,16 +259,14 @@ export const BillProvider: React.FC<{ children: React.ReactNode }> = ({ children
             ai_summary,
             key_provisions,
             potential_impact,
+            potential_impact,
             potential_controversy,
             bill_sponsors (
               id,
               name,
               party,
               state,
-              district,
-              bioguide_id,
-              sponsorship_date,
-              is_original_cosponsor
+              bioguide_id
             ),
             bill_timeline (
               date,
@@ -547,7 +583,8 @@ export const BillProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setSortBy,
     getSortedBills,
     loadingProgress,
-    connectionStatus
+    connectionStatus,
+    userRole
   }), [
     bills,
     loading,
@@ -562,7 +599,8 @@ export const BillProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setSortBy,
     getSortedBills,
     loadingProgress,
-    connectionStatus
+    connectionStatus,
+    userRole
   ]);
 
   return (
@@ -571,7 +609,6 @@ export const BillProvider: React.FC<{ children: React.ReactNode }> = ({ children
     </BillContext.Provider>
   );
 };
-      
 
 export const useBillContext = () => {
   const context = useContext(BillContext);
