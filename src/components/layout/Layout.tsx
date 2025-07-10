@@ -5,9 +5,10 @@ import { Menu } from 'lucide-react';
 
 interface LayoutProps {
   children: ReactNode;
+  setShowAuthModal: (show: boolean) => void; // New prop
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children, setShowAuthModal }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -16,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
+      <Navbar setShowAuthModal={setShowAuthModal} /> {/* Pass prop to Navbar */}
       
       <div className="flex flex-1 overflow-hidden">
         {/* Mobile sidebar toggle */}

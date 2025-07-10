@@ -5,12 +5,34 @@ import { motion } from 'framer-motion';
 import SearchHeader from './SearchHeader';
 import SortDropdown, { SortOption } from './SortDropdown';
 import { useBillContext } from '../../context/BillContext';
+import { supabase } from '../../lib/supabaseClient'; // Import supabase client
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  setShowAuthModal: (show: boolean) => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ setShowAuthModal }) => {
   const { sortBy, setSortBy } = useBillContext();
+  const [session, setSession] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleSortChange = (newSort: SortOption) => {
     setSortBy(newSort);
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
   };
 
   return (
@@ -31,8 +53,8 @@ const Navbar: React.FC = () => {
               </svg>
             </motion.div>
             <div className="flex flex-col">
-              <span className="font-bold text-xl text-primary-950">Legibills</span>
-              <span className="text-xs text-gray-500 -mt-1">Legible Legislature</span>
+              <span className="font-bold text-xl text-primary-950">Clear Bill</span>
+              <span className="text-xs text-gray-500 -mt-1">Simplified Bills & Laws</span>
             </div>
           </Link>
 
@@ -50,6 +72,22 @@ const Navbar: React.FC = () => {
 
           {/* Right navigation items */}
           <div className="flex items-center space-x-3">
+            {session ? (
+              <button
+                onClick={handleSignOut}
+                className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowAuthModal(true)}
+                className="px-3 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700"
+              >
+                Sign In
+              </button>
+            )}
+
             {/* Notifications */}
             <Link to="/alerts" className="relative text-gray-500 hover:text-primary-600 p-1">
               <Bell size={20} />

@@ -7,7 +7,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import DisclaimerModal from './components/DisclaimerModal';
 import { supabase } from './lib/supabaseClient';
-import AuthModal from './components/AuthModal'; // Changed import
+import AuthModal from './components/AuthModal';
 import { Session } from '@supabase/supabase-js';
 
 const LoadingFallback = () => (
@@ -23,16 +23,25 @@ const LoadingFallback = () => (
 const App: React.FC = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [showDisclaimer, setShowDisclaimer] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false); // New state for AuthModal visibility
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
+      // Only show auth modal initially if no session and not previously dismissed
+      if (!session && localStorage.getItem('authModalDismissed') !== 'true') {
+        setShowAuthModal(true);
+      }
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      // If session becomes active, hide auth modal
+      if (session) {
+        setShowAuthModal(false);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -52,22 +61,26 @@ const App: React.FC = () => {
     setShowDisclaimer(false);
   };
 
+  const handleAuthModalClose = () => {
+    setShowAuthModal(false);
+    localStorage.setItem('authModalDismissed', 'true'); // Remember dismissal
+  };
+
   return (
     <ErrorBoundary>
       <BillProvider>
         <BillInitializer>
           <Suspense fallback={<LoadingFallback />}>
-            <Layout>
+            <Layout setShowAuthModal={setShowAuthModal}> {/* Pass setter to Layout */}
               <Outlet />
             </Layout>
             <DisclaimerModal 
               isOpen={showDisclaimer} 
               onClose={handleDisclaimerClose} 
             />
-            {/* Render AuthModal when there's no session */}
             <AuthModal 
-              isOpen={!session} 
-              onClose={() => { /* No action needed here, session change handles close */ }} 
+              isOpen={showAuthModal} 
+              onClose={handleAuthModalClose} 
             />
           </Suspense>
         </BillInitializer>
