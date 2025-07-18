@@ -11,7 +11,7 @@ import AuthModal from './components/AuthModal';
 import { Session } from '@supabase/supabase-js';
 
 const LoadingFallback = () => (
-  <div className="flex items-center justify-center min-h-screen">
+  <div className="flex items-center justify-center min-h-screen dark:bg-gray-900">
     <LoadingSpinner 
       variant="bills" 
       size="xl" 
@@ -23,7 +23,7 @@ const LoadingFallback = () => (
 const App: React.FC = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [showDisclaimer, setShowDisclaimer] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false); // Default to false
+  const [showAuthModal, setShowAuthModal] = useState(false); // Changed to always be false to disable pop-up // Default to false
 
   useEffect(() => {
     const checkModals = async () => {
@@ -37,7 +37,7 @@ const App: React.FC = () => {
         setShowAuthModal(false);
       } else if (!currentSession && localStorage.getItem('authModalDismissed') !== 'true') {
         // Only show auth modal if no session and not previously dismissed, AND disclaimer is not shown
-        setShowAuthModal(true);
+        // setShowAuthModal(true); // Disabled to prevent pop-up
       }
     };
 
@@ -52,7 +52,7 @@ const App: React.FC = () => {
         setShowAuthModal(false);
       } else if (localStorage.getItem('authModalDismissed') !== 'true') {
         // If session ends and not dismissed, show auth modal
-        setShowAuthModal(true);
+        // setShowAuthModal(true); // Disabled to prevent pop-up
       }
     });
 
@@ -63,7 +63,7 @@ const App: React.FC = () => {
     setShowDisclaimer(false);
     // After disclaimer is closed, check if auth modal should be shown
     if (!session && localStorage.getItem('authModalDismissed') !== 'true') {
-      setShowAuthModal(true);
+      // setShowAuthModal(true); // Disabled to prevent pop-up
     }
   };
 

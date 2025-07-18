@@ -311,17 +311,17 @@ const Analytics: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white shadow-sm border-b dark:bg-gray-800 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center">
+              <h1 className="text-3xl font-bold text-gray-900 flex items-center dark:text-white">
                 <BarChart3 size={32} className="mr-3 text-primary-600" />
                 Legislative Analytics
               </h1>
-              <p className="text-gray-600 mt-1">
+              <p className="text-gray-600 mt-1 dark:text-gray-300">
                 Comprehensive insights into congressional activity and bill progression
               </p>
             </div>
@@ -329,7 +329,7 @@ const Analytics: React.FC = () => {
               <button
                 onClick={handleRefresh}
                 disabled={isRefreshing}
-                className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors"
+                className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
               >
                 <RefreshCw size={16} className={`mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
                 Refresh
@@ -348,16 +348,16 @@ const Analytics: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Filters */}
-        <div className="bg-white rounded-xl shadow-sm border p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-sm border p-6 mb-8 dark:bg-gray-800 dark:border-gray-700">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <Calendar size={20} className="text-gray-500" />
-                <label className="text-sm font-medium text-gray-700">Time Range:</label>
+                <Calendar size={20} className="text-gray-500 dark:text-gray-400" />
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Time Range:</label>
                 <select
                   value={timeRange}
                   onChange={(e) => setTimeRange(e.target.value as any)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 >
                   <option value="7d">Last 7 days</option>
                   <option value="30d">Last 30 days</option>
@@ -368,12 +368,12 @@ const Analytics: React.FC = () => {
               </div>
 
               <div className="flex items-center space-x-2">
-                <Building size={20} className="text-gray-500" />
-                <label className="text-sm font-medium text-gray-700">Chamber:</label>
+                <Building size={20} className="text-gray-500 dark:text-gray-400" />
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-200">Chamber:</label>
                 <select
                   value={selectedChamber}
                   onChange={(e) => setSelectedChamber(e.target.value as any)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 >
                   <option value="all">All Chambers</option>
                   <option value="house">House</option>
@@ -382,7 +382,7 @@ const Analytics: React.FC = () => {
               </div>
             </div>
 
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-gray-600 dark:text-gray-300">
               Analyzing {filteredBills.length.toLocaleString()} bills
             </div>
           </div>
@@ -396,7 +396,7 @@ const Analytics: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-xl shadow-sm border p-6 hover:shadow-md transition-shadow"
+              className="bg-white rounded-xl shadow-sm border p-6 hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:shadow-lg"
             >
               <div className="flex items-center justify-between mb-4">
                 <div className={`${metric.color} text-white p-3 rounded-lg`}>
@@ -409,10 +409,10 @@ const Analytics: React.FC = () => {
                   </div>
                 )}
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">
+              <div className="text-3xl font-bold text-gray-900 mb-1 dark:text-white">
                 {metric.value}
               </div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-gray-600 dark:text-gray-300">
                 {metric.title}
               </div>
             </motion.div>
@@ -425,16 +425,16 @@ const Analytics: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl shadow-sm border p-6"
+            className="bg-white rounded-xl shadow-sm border p-6 dark:bg-gray-800 dark:border-gray-700"
           >
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center dark:text-white">
                 <PieChart size={20} className="mr-2 text-primary-600" />
                 Bill Status Distribution
               </h3>
               <button
                 onClick={() => toggleSection('status')}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
               >
                 {expandedSection === 'status' ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
               </button>
@@ -448,11 +448,11 @@ const Analytics: React.FC = () => {
                       className="w-4 h-4 rounded-full"
                       style={{ backgroundColor: item.color }}
                     />
-                    <span className="text-sm font-medium text-gray-700">{item.label}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{item.label}</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-sm text-gray-600">{item.value}</span>
-                    <div className="w-20 bg-gray-200 rounded-full h-2">
+                    <span className="text-sm text-gray-600 dark:text-gray-300">{item.value}</span>
+                    <div className="w-20 bg-gray-200 rounded-full h-2 dark:bg-gray-700">
                       <div
                         className="h-2 rounded-full"
                         style={{ 
@@ -472,10 +472,10 @@ const Analytics: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white rounded-xl shadow-sm border p-6"
+            className="bg-white rounded-xl shadow-sm border p-6 dark:bg-gray-800 dark:border-gray-700"
           >
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center dark:text-white">
                 <Building size={20} className="mr-2 text-primary-600" />
                 Chamber Distribution
               </h3>
@@ -489,11 +489,11 @@ const Analytics: React.FC = () => {
                       className="w-4 h-4 rounded-full"
                       style={{ backgroundColor: item.color }}
                     />
-                    <span className="text-sm font-medium text-gray-700">{item.label}</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{item.label}</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-lg font-bold text-gray-900">{item.value}</span>
-                    <span className="text-sm text-gray-600">
+                    <span className="text-lg font-bold text-gray-900 dark:text-white">{item.value}</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-300">
                       ({((item.value / filteredBills.length) * 100).toFixed(1)}%)
                     </span>
                   </div>
@@ -501,9 +501,9 @@ const Analytics: React.FC = () => {
               ))}
             </div>
 
-            <div className="mt-6 pt-4 border-t border-gray-200">
-              <div className="text-sm text-gray-600">
-                Total Bills: <span className="font-medium text-gray-900">{filteredBills.length}</span>
+            <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Total Bills: <span className="font-medium text-gray-900 dark:text-white">{filteredBills.length}</span>
               </div>
             </div>
           </motion.div>
@@ -514,10 +514,10 @@ const Analytics: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white rounded-xl shadow-sm border p-6 mb-8"
+          className="bg-white rounded-xl shadow-sm border p-6 mb-8 dark:bg-gray-800 dark:border-gray-700"
         >
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+            <h3 className="text-lg font-semibold text-gray-900 flex items-center dark:text-white">
               <TrendingUp size={20} className="mr-2 text-primary-600" />
               Legislative Activity Timeline (Last 30 Days)
             </h3>
@@ -543,7 +543,7 @@ const Analytics: React.FC = () => {
                   />
                 </div>
                 {index % 5 === 0 && (
-                  <div className="text-xs text-gray-500 mt-2 transform -rotate-45 origin-left">
+                  <div className="text-xs text-gray-500 mt-2 transform -rotate-45 origin-left dark:text-gray-400">
                     {day.date}
                   </div>
                 )}
@@ -551,14 +551,14 @@ const Analytics: React.FC = () => {
             ))}
           </div>
           
-          <div className="flex items-center justify-center space-x-6 mt-4 pt-4 border-t border-gray-200">
+          <div className="flex items-center justify-center space-x-6 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 bg-primary-500 rounded" />
-              <span className="text-sm text-gray-600">Bills Introduced</span>
+              <span className="text-sm text-gray-600 dark:text-gray-300">Bills Introduced</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 bg-blue-300 rounded" />
-              <span className="text-sm text-gray-600">Legislative Actions</span>
+              <span className="text-sm text-gray-600 dark:text-gray-300">Legislative Actions</span>
             </div>
           </div>
         </motion.div>
@@ -568,10 +568,10 @@ const Analytics: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white rounded-xl shadow-sm border p-6"
+          className="bg-white rounded-xl shadow-sm border p-6 dark:bg-gray-800 dark:border-gray-700"
         >
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+            <h3 className="text-lg font-semibold text-gray-900 flex items-center dark:text-white">
               <BarChart3 size={20} className="mr-2 text-primary-600" />
               Top Legislative Topics
             </h3>
@@ -579,16 +579,16 @@ const Analytics: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {topicData.map((topic, index) => (
-              <div key={topic.label} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div key={topic.label} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg dark:bg-gray-700">
                 <div className="flex items-center space-x-3">
-                  <div className="text-sm font-medium text-gray-600">#{index + 1}</div>
+                  <div className="text-sm font-medium text-gray-600 dark:text-gray-300">#{index + 1}</div>
                   <div 
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: topic.color }}
                   />
-                  <span className="text-sm font-medium text-gray-900">{topic.label}</span>
+                  <span className="text-sm font-medium text-gray-900 dark:text-white">{topic.label}</span>
                 </div>
-                <span className="text-sm font-bold text-gray-700">{topic.value}</span>
+                <span className="text-sm font-bold text-gray-700 dark:text-gray-200">{topic.value}</span>
               </div>
             ))}
           </div>

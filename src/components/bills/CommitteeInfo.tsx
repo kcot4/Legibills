@@ -49,17 +49,17 @@ const CommitteeInfo: React.FC<CommitteeInfoProps> = ({
       {displayCommittees.map((activity, index) => (
         <div 
           key={`${activity.committee.name}-${activity.date}-${index}`}
-          className="border border-gray-200 rounded-lg p-3 bg-gray-50"
+          className="border border-gray-200 rounded-lg p-3 bg-gray-50 dark:border-gray-700 dark:bg-gray-700"
         >
           <div className="flex items-start justify-between mb-2">
             <div className="flex items-center space-x-2">
-              <Users size={16} className="text-gray-500 flex-shrink-0" />
+              <Users size={16} className="text-gray-500 flex-shrink-0 dark:text-gray-400" />
               <div>
-                <h4 className="text-sm font-medium text-gray-900">
+                <h4 className="text-sm font-medium text-gray-900 dark:text-white">
                   {activity.committee.name}
                 </h4>
                 <div className="flex items-center space-x-2 mt-1">
-                  <span className="text-xs text-gray-500 capitalize">
+                  <span className="text-xs text-gray-500 capitalize dark:text-gray-400">
                     {activity.committee.chamber} Committee
                   </span>
                   {activity.committee.url && (
@@ -85,11 +85,11 @@ const CommitteeInfo: React.FC<CommitteeInfoProps> = ({
           </div>
 
           <div className="space-y-2">
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300">
               {activity.activity}
             </p>
             
-            <div className="flex items-center text-xs text-gray-500">
+            <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
               <Calendar size={12} className="mr-1" />
               {format(new Date(activity.date), 'MMM d, yyyy')}
             </div>

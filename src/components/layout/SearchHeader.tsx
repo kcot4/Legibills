@@ -105,7 +105,7 @@ const SearchHeader: React.FC = () => {
         <div className="relative">
           <Search 
             size={18} 
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-400"
           />
           <input
             type="text"
@@ -113,24 +113,24 @@ const SearchHeader: React.FC = () => {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setIsExpanded(true)}
             placeholder="Search bills, topics, or keywords..."
-            className="w-full bg-gray-100 border border-gray-300 rounded-full py-2 pl-10 pr-12 text-sm placeholder-gray-500 focus:outline-none focus:bg-white focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors duration-200"
+            className="w-full bg-gray-100 border border-gray-300 rounded-full py-2 pl-10 pr-12 text-sm placeholder-gray-500 focus:outline-none focus:bg-white focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:bg-gray-800 dark:focus:border-primary-700"
           />
           <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center space-x-1">
             {query && (
               <button
                 type="button"
                 onClick={() => setQuery('')}
-                className="p-1 hover:bg-gray-200 rounded-full transition-colors duration-200"
+                className="p-1 hover:bg-gray-200 rounded-full transition-colors duration-200 dark:hover:bg-gray-700"
               >
-                <X size={14} className="text-gray-500" />
+                <X size={14} className="text-gray-500 dark:text-gray-400" />
               </button>
             )}
             <button
               type="button"
               onClick={() => setShowFilters(!showFilters)}
-              className={`p-1 hover:bg-gray-200 rounded-full transition-colors duration-200 ${showFilters ? 'bg-gray-200' : ''}`}
+              className={`p-1 hover:bg-gray-200 rounded-full transition-colors duration-200 ${showFilters ? 'bg-gray-200 dark:bg-gray-700' : ''} dark:hover:bg-gray-700`}
             >
-              <Filter size={14} className="text-gray-500" />
+              <Filter size={14} className="text-gray-500 dark:text-gray-400" />
             </button>
           </div>
         </div>
@@ -143,7 +143,7 @@ const SearchHeader: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-50"
+            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-50 dark:bg-gray-800 dark:border-gray-700"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <CongressFilter
@@ -157,61 +157,61 @@ const SearchHeader: React.FC = () => {
               />
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-200">
                   Status
                 </label>
                 <select
                   value={searchParams.get('status') || ''}
                   onChange={(e) => handleFilterChange('status', e.target.value)}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 >
                   <option value="">All Statuses</option>
-                  <option value="introduced">Introduced</option>
-                  <option value="referred_to_committee">In Committee</option>
-                  <option value="reported_by_committee">Reported</option>
-                  <option value="passed_house">Passed House</option>
-                  <option value="passed_senate">Passed Senate</option>
-                  <option value="to_president">To President</option>
-                  <option value="enacted">Enacted</option>
-                  <option value="vetoed">Vetoed</option>
+                  <option value="introduced" className="dark:bg-gray-700 dark:text-white">Introduced</option>
+                  <option value="referred_to_committee" className="dark:bg-gray-700 dark:text-white">In Committee</option>
+                  <option value="reported_by_committee" className="dark:bg-gray-700 dark:text-white">Reported</option>
+                  <option value="passed_house" className="dark:bg-gray-700 dark:text-white">Passed House</option>
+                  <option value="passed_senate" className="dark:bg-gray-700 dark:text-white">Passed Senate</option>
+                  <option value="to_president" className="dark:bg-gray-700 dark:text-white">To President</option>
+                  <option value="enacted" className="dark:bg-gray-700 dark:text-white">Enacted</option>
+                  <option value="vetoed" className="dark:bg-gray-700 dark:text-white">Vetoed</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-200">
                   Chamber
                 </label>
                 <select
                   value={searchParams.get('chamber') || ''}
                   onChange={(e) => handleFilterChange('chamber', e.target.value)}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 >
                   <option value="">All Chambers</option>
-                  <option value="house">House</option>
-                  <option value="senate">Senate</option>
+                  <option value="house" className="dark:bg-gray-700 dark:text-white">House</option>
+                  <option value="senate" className="dark:bg-gray-700 dark:text-white">Senate</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-200">
                   Category
                 </label>
                 <select
                   value={searchParams.get('category') || ''}
                   onChange={(e) => handleFilterChange('category', e.target.value)}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 >
                   <option value="">All Categories</option>
-                  <option value="recent">Recent</option>
-                  <option value="trending">Trending</option>
-                  <option value="upcoming">Upcoming</option>
-                  <option value="enacted">Enacted</option>
+                  <option value="recent" className="dark:bg-gray-700 dark:text-white">Recent</option>
+                  <option value="trending" className="dark:bg-gray-700 dark:text-white">Trending</option>
+                  <option value="upcoming" className="dark:bg-gray-700 dark:text-white">Upcoming</option>
+                  <option value="enacted" className="dark:bg-gray-700 dark:text-white">Enacted</option>
                 </select>
               </div>
             </div>
 
             {/* Advanced Filters Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-200">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
               <CommitteeFilter
                 selectedCommittees={getSelectedCommittees()}
                 onCommitteeChange={(committees) => handleFilterChange('committees', committees)}
@@ -233,7 +233,7 @@ const SearchHeader: React.FC = () => {
                   navigate('/search');
                   setShowFilters(false);
                 }}
-                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none"
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none dark:text-gray-200 dark:hover:text-white"
               >
                 Clear All
               </button>

@@ -122,13 +122,13 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortChange }
     <div ref={dropdownRef} className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+        className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-primary-700 dark:focus:border-primary-700"
         aria-label="Sort options"
         aria-expanded={isOpen}
       >
-        <span className="text-gray-600">{currentOption.icon}</span>
-        <span className="text-sm font-medium text-gray-700">Sort by:</span>
-        <span className="text-sm text-gray-900">{currentOption.label}</span>
+        <span className="text-gray-600 dark:text-gray-300">{currentOption.icon}</span>
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Sort by:</span>
+        <span className="text-sm text-gray-900 dark:text-white">{currentOption.label}</span>
         <ChevronDown 
           size={16} 
           className={`text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
@@ -142,11 +142,11 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortChange }
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="absolute top-full left-0 mt-2 w-72 bg-white rounded-lg shadow-lg border border-gray-200 z-50 overflow-hidden"
+            className="absolute top-full left-0 mt-2 w-72 bg-white rounded-lg shadow-lg border border-gray-200 z-50 overflow-hidden dark:bg-gray-800 dark:border-gray-700"
           >
             <div className="py-2">
-              <div className="px-4 py-2 border-b border-gray-100">
-                <h3 className="text-sm font-semibold text-gray-900">Sort Bills By</h3>
+              <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Sort Bills By</h3>
               </div>
               
               <div className="max-h-80 overflow-y-auto">
@@ -155,7 +155,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortChange }
                     key={option.value}
                     onClick={() => handleSortSelect(option.value)}
                     className={`w-full flex items-start space-x-3 px-4 py-3 text-left hover:bg-gray-50 transition-colors duration-150 ${
-                      currentSort === option.value ? 'bg-primary-50 border-r-2 border-primary-500' : ''
+                      currentSort === option.value ? 'bg-primary-50 border-r-2 border-primary-500 dark:bg-primary-900 dark:border-primary-700' : 'dark:hover:bg-gray-700'
                     }`}
                   >
                     <span className={`mt-0.5 ${currentSort === option.value ? 'text-primary-600' : 'text-gray-400'}`}>
@@ -163,11 +163,11 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ currentSort, onSortChange }
                     </span>
                     <div className="flex-1 min-w-0">
                       <div className={`text-sm font-medium ${
-                        currentSort === option.value ? 'text-primary-900' : 'text-gray-900'
+                        currentSort === option.value ? 'text-primary-900 dark:text-primary-300' : 'text-gray-900 dark:text-white'
                       }`}>
                         {option.label}
                       </div>
-                      <div className="text-xs text-gray-500 mt-0.5">
+                      <div className="text-xs text-gray-500 mt-0.5 dark:text-gray-400">
                         {option.description}
                       </div>
                     </div>

@@ -148,15 +148,15 @@ const Dashboard: React.FC = () => {
       <div className="mb-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Congressional Bill Tracker</h1>
-            <p className="text-gray-600">
+            <h1 className="text-2xl font-bold text-gray-900 mb-2 dark:text-white">Congressional Bill Tracker</h1>
+            <p className="text-gray-600 dark:text-gray-300">
               Stay informed about legislation that matters to you with AI-powered bill explanations.
             </p>
           </div>
           <div className="flex items-center space-x-3">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50 transition-colors"
+              className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50 transition-colors dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600"
             >
               <Filter size={16} className="mr-2" />
               Filters
@@ -186,13 +186,13 @@ const Dashboard: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6"
+          className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6 dark:bg-gray-800 dark:border-gray-700"
         >
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Quick Filters</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Quick Filters</h2>
             <button
               onClick={() => setShowFilters(false)}
-              className="text-gray-500 hover:text-gray-700"
+              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
             >
               <X size={20} />
             </button>
@@ -200,7 +200,7 @@ const Dashboard: React.FC = () => {
           
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">
+              <label className="text-sm font-medium text-gray-700 mb-2 block dark:text-gray-300">
                 Chamber
               </label>
               <div className="flex space-x-2">
@@ -210,8 +210,8 @@ const Dashboard: React.FC = () => {
                     onClick={() => setSelectedChamber(chamber as typeof selectedChamber)}
                     className={`px-4 py-2 text-sm font-medium rounded-md ${
                       selectedChamber === chamber
-                        ? 'bg-primary-100 text-primary-700 border-primary-200'
-                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        ? 'bg-primary-100 text-primary-700 border-primary-200 dark:bg-primary-900 dark:text-primary-300 dark:border-primary-700'
+                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600'
                     } border`}
                   >
                     {chamber.charAt(0).toUpperCase() + chamber.slice(1)}
@@ -221,7 +221,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-2 block">
+              <label className="text-sm font-medium text-gray-700 mb-2 block dark:text-gray-300">
                 Visible Categories
               </label>
               <div className="flex flex-wrap gap-2">
@@ -231,8 +231,8 @@ const Dashboard: React.FC = () => {
                     onClick={() => toggleCategory(category)}
                     className={`px-3 py-1.5 text-sm font-medium rounded-md ${
                       visibleCategories.includes(category)
-                        ? 'bg-primary-100 text-primary-700 border-primary-200'
-                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        ? 'bg-primary-100 text-primary-700 border-primary-200 dark:bg-primary-900 dark:text-primary-300 dark:border-primary-700'
+                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600'
                     } border`}
                   >
                     {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -248,7 +248,7 @@ const Dashboard: React.FC = () => {
       {trackedBills.length > 0 && (
         <section className="mb-8">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">My Feed</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">My Feed</h2>
             <Link
               to="/saved"
               className="text-primary-600 hover:text-primary-800 text-sm font-medium"
@@ -308,7 +308,7 @@ const Dashboard: React.FC = () => {
         {popularTopics.length > 0 && (
           <section>
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-gray-900 flex items-center">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center dark:text-white">
                 <Tag size={20} className="mr-2 text-primary-600" />
                 Popular Topics
               </h2>
@@ -324,10 +324,10 @@ const Dashboard: React.FC = () => {
             {loading ? (
               <div className="grid grid-cols-2 gap-4">
                 {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                  <div key={i} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 dark:bg-gray-800 dark:border-gray-700">
                     <div className="animate-pulse">
-                      <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                      <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                      <div className="h-4 bg-gray-200 rounded mb-2 dark:bg-gray-600"></div>
+                      <div className="h-3 bg-gray-200 rounded w-2/3 dark:bg-gray-600"></div>
                     </div>
                   </div>
                 ))}
@@ -338,15 +338,15 @@ const Dashboard: React.FC = () => {
                   <Link
                     key={topic}
                     to={`/topic/${encodeURIComponent(topic.toLowerCase())}`}
-                    className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md hover:border-primary-300 transition-all duration-200 group"
+                    className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md hover:border-primary-300 transition-all duration-200 group dark:bg-gray-800 dark:border-gray-700 dark:hover:border-primary-700"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-medium text-gray-900 group-hover:text-primary-700 transition-colors text-sm">
+                      <h3 className="font-medium text-gray-900 group-hover:text-primary-700 transition-colors text-sm dark:text-white dark:group-hover:text-primary-300">
                         {topic}
                       </h3>
                       <TrendingUp size={14} className="text-gray-400 group-hover:text-primary-500 transition-colors" />
                     </div>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
                       {count} {count === 1 ? 'bill' : 'bills'}
                     </p>
                   </Link>
@@ -360,7 +360,7 @@ const Dashboard: React.FC = () => {
         {popularCommittees.length > 0 && (
           <section>
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-gray-900 flex items-center">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center dark:text-white">
                 <Building size={20} className="mr-2 text-blue-600" />
                 Active Committees
               </h2>
@@ -376,10 +376,10 @@ const Dashboard: React.FC = () => {
             {loading ? (
               <div className="grid grid-cols-1 gap-3">
                 {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                  <div key={i} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 dark:bg-gray-800 dark:border-gray-700">
                     <div className="animate-pulse">
-                      <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                      <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                      <div className="h-4 bg-gray-200 rounded mb-2 dark:bg-gray-600"></div>
+                      <div className="h-3 bg-gray-200 rounded w-2/3 dark:bg-gray-600"></div>
                     </div>
                   </div>
                 ))}
@@ -390,16 +390,16 @@ const Dashboard: React.FC = () => {
                   <Link
                     key={committee}
                     to={`/committee/${encodeURIComponent(committee.toLowerCase())}`}
-                    className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md hover:border-blue-300 transition-all duration-200 group"
+                    className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md hover:border-blue-300 transition-all duration-200 group dark:bg-gray-800 dark:border-gray-700 dark:hover:border-blue-700"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center min-w-0 flex-1">
                         <Users size={16} className="text-blue-500 mr-2 flex-shrink-0" />
-                        <h3 className="font-medium text-gray-900 group-hover:text-blue-700 transition-colors text-sm truncate">
+                        <h3 className="font-medium text-gray-900 group-hover:text-blue-700 transition-colors text-sm truncate dark:text-white dark:group-hover:text-blue-300">
                           {committee}
                         </h3>
                       </div>
-                      <span className="text-sm text-gray-600 ml-2 flex-shrink-0">
+                      <span className="text-sm text-gray-600 ml-2 flex-shrink-0 dark:text-gray-300">
                         {count} {count === 1 ? 'bill' : 'bills'}
                       </span>
                     </div>
@@ -417,8 +417,8 @@ const Dashboard: React.FC = () => {
           {visibleCategories.map(category => (
             <div key={category} className="mb-8">
               <div className="flex justify-between items-center mb-4">
-                <div className="h-6 w-48 bg-gray-200 rounded animate-pulse"></div>
-                <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
+                <div className="h-6 w-48 bg-gray-200 rounded animate-pulse dark:bg-gray-600"></div>
+                <div className="h-4 w-16 bg-gray-200 rounded animate-pulse dark:bg-gray-600"></div>
               </div>
               <BillLoadingSkeleton count={6} />
             </div>
@@ -461,9 +461,9 @@ const Dashboard: React.FC = () => {
       {/* All Bills Section with Virtualization */}
       <section className="mt-12">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold text-gray-900">All Bills</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">All Bills</h2>
           <div className="flex items-center space-x-4">
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-gray-600 dark:text-gray-300">
               {filteredBills.length} bills total
             </span>
             <Link
@@ -476,11 +476,11 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
         
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          <div className="p-4 border-b border-gray-200 bg-gray-50">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden dark:bg-gray-800 dark:border-gray-700">
+          <div className="p-4 border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-700">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium text-gray-900">All Bills (Virtualized)</h3>
-              <span className="text-xs text-gray-500">
+              <h3 className="text-sm font-medium text-gray-900 dark:text-white">All Bills (Virtualized)</h3>
+              <span className="text-xs text-gray-500 dark:text-gray-400">
                 Showing all {filteredBills.length} bills
               </span>
             </div>
@@ -501,12 +501,12 @@ const Dashboard: React.FC = () => {
               {BillRow}
             </List>
           ) : (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-gray-500 dark:text-gray-400">
               <p>No bills found matching your current filters.</p>
             </div>
           )}
           
-          <div className="p-4 border-t border-gray-200 bg-gray-50 text-center">
+          <div className="p-4 border-t border-gray-200 bg-gray-50 text-center dark:border-gray-700 dark:bg-gray-700">
             <Link
               to="/search"
               className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"

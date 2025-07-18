@@ -95,7 +95,7 @@ const BillCard: React.FC<BillCardProps> = memo(({ bill, style, showCommittees = 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
+        className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:shadow-lg"
         layout
         style={style} // Apply style prop for virtualization
       >
@@ -104,7 +104,7 @@ const BillCard: React.FC<BillCardProps> = memo(({ bill, style, showCommittees = 
             <div className="flex justify-between items-start mb-3">
               <div className="flex items-center space-x-2">
                 <StatusBadge status={bill.status} />
-                <span className="text-sm font-medium text-gray-500">
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
                   {bill.congress}th Congress - {bill.number}
                 </span>
               </div>
@@ -134,21 +134,21 @@ const BillCard: React.FC<BillCardProps> = memo(({ bill, style, showCommittees = 
               </div>
             </div>
 
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            <h3 className="text-lg font-semibold text-gray-900 mb-3 dark:text-white">
               {truncateText(bill.title)}
             </h3>
 
             {/* Primary Committee Info */}
             {primaryCommittee && (
-              <div className="mb-3 p-2 bg-blue-50 rounded-md">
-                <div className="flex items-center text-sm text-blue-800">
+              <div className="mb-3 p-2 bg-blue-50 rounded-md dark:bg-blue-950">
+                <div className="flex items-center text-sm text-blue-800 dark:text-blue-300">
                   <Users size={14} className="mr-1 flex-shrink-0" />
                   <span className="font-medium">{primaryCommittee.committee.name}</span>
-                  <span className="ml-2 text-blue-600 capitalize">
+                  <span className="ml-2 text-blue-600 capitalize dark:text-blue-400">
                     ({primaryCommittee.committee.chamber})
                   </span>
                 </div>
-                <div className="text-xs text-blue-600 mt-1">
+                <div className="text-xs text-blue-600 mt-1 dark:text-blue-400">
                   {primaryCommittee.activity} - {formatDateSafe(primaryCommittee.date)}
                 </div>
               </div>
@@ -159,13 +159,13 @@ const BillCard: React.FC<BillCardProps> = memo(({ bill, style, showCommittees = 
                 bill.topics.map((topic, index) => (
                   <span
                     key={`${topic}-${index}`}
-                    className="inline-block bg-gray-100 rounded-full px-2 py-0.5 text-xs font-medium text-gray-800"
+                    className="inline-block bg-gray-100 rounded-full px-2 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-200"
                   >
                     {topic}
                   </span>
                 ))
               ) : (
-                <span className="text-xs text-gray-500">No topics available</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">No topics available</span>
               )}
             </div>
 
@@ -174,15 +174,15 @@ const BillCard: React.FC<BillCardProps> = memo(({ bill, style, showCommittees = 
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="mb-4 pt-3 border-t border-gray-100 space-y-4"
+                className="mb-4 pt-3 border-t border-gray-100 space-y-4 dark:border-gray-700"
               >
                 {/* Sponsors */}
                 {bill.sponsors && bill.sponsors.length > 0 && (
                   <div>
-                    <h4 className="text-sm font-medium text-gray-900 mb-2">Sponsors:</h4>
+                    <h4 className="text-sm font-medium text-gray-900 mb-2 dark:text-white">Sponsors:</h4>
                     <ul className="space-y-1">
                       {bill.sponsors.slice(0, 3).map((sponsor, index) => (
-                        <li key={index} className="text-sm text-gray-600">
+                        <li key={index} className="text-sm text-gray-600 dark:text-gray-300">
                           {sponsor.name} ({sponsor.party}-{sponsor.state})
                         </li>
                       ))}
@@ -198,7 +198,7 @@ const BillCard: React.FC<BillCardProps> = memo(({ bill, style, showCommittees = 
                 {/* All Committees */}
                 {showCommittees && hasCommittees && (
                   <div>
-                    <h4 className="text-sm font-medium text-gray-900 mb-2">
+                    <h4 className="text-sm font-medium text-gray-900 mb-2 dark:text-white">
                       Committee Activity ({bill.committees.length}):
                     </h4>
                     <CommitteeInfo committees={bill.committees} showAll={false} />
@@ -207,36 +207,36 @@ const BillCard: React.FC<BillCardProps> = memo(({ bill, style, showCommittees = 
               </motion.div>
             )}
 
-            <div className="flex flex-col space-y-2 pt-3 border-t border-gray-100">
-              <div className="flex items-center justify-between text-sm text-gray-600">
+            <div className="flex flex-col space-y-2 pt-3 border-t border-gray-100 dark:border-gray-700">
+              <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
                 <div className="flex items-center">
                   <Clock size={14} className="mr-1 flex-shrink-0" />
                   <span className="truncate">
                     {latestAction ? latestAction.action : 'No recent action'}
                   </span>
                 </div>
-                <span className="text-gray-500 text-xs">
+                <span className="text-gray-500 text-xs dark:text-gray-400">
                   {latestAction ? formatDateSafe(latestAction.date) : ''}
                 </span>
               </div>
 
-              <div className="flex items-center justify-between text-sm text-gray-600">
+              <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
                 <div className="flex items-center">
                   <Calendar size={14} className="mr-1 flex-shrink-0" />
                   <span>Introduced</span>
                 </div>
-                <span className="text-gray-500 text-xs">
+                <span className="text-gray-500 text-xs dark:text-gray-400">
                   {formatDateSafe(bill.introducedDate)}
                 </span>
               </div>
 
               {hasCommittees && !expanded && (
-                <div className="flex items-center justify-between text-sm text-gray-600">
+                <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
                   <div className="flex items-center">
                     <Users size={14} className="mr-1 flex-shrink-0" />
                     <span>Committees</span>
                   </div>
-                  <span className="text-gray-500 text-xs">
+                  <span className="text-gray-500 text-xs dark:text-gray-400">
                     {bill.committees.length} active
                   </span>
                 </div>
@@ -244,7 +244,7 @@ const BillCard: React.FC<BillCardProps> = memo(({ bill, style, showCommittees = 
 
               <button
                 onClick={toggleExpanded}
-                className="flex items-center justify-center w-full mt-2 text-primary-600 text-sm focus:outline-none"
+                className="flex items-center justify-center w-full mt-2 text-primary-600 text-sm focus:outline-none hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
                 aria-expanded={expanded}
                 aria-label="Toggle details"
               >

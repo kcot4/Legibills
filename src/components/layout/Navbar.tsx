@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Bell, UserCircle, Search as SearchIcon } from 'lucide-react'; // Renamed Search to SearchIcon
+import { Bell, UserCircle, Search as SearchIcon, Moon } from 'lucide-react'; // Renamed Search to SearchIcon
 import { motion } from 'framer-motion';
 import SearchHeader from './SearchHeader';
 import SortDropdown, { SortOption } from './SortDropdown';
 import { useBillContext } from '../../context/BillContext';
 import { supabase } from '../../lib/supabaseClient'; // Import supabase client
+import { useTheme } from '../../context/ThemeContext'; // Import useTheme
 
 interface NavbarProps {
   setShowAuthModal: (show: boolean) => void;
@@ -15,6 +16,7 @@ const Navbar: React.FC<NavbarProps> = ({ setShowAuthModal }) => {
   const { sortBy, setSortBy } = useBillContext();
   const [session, setSession] = React.useState<any>(null);
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme(); // Use the theme hook
 
   React.useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -41,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({ setShowAuthModal }) => {
   };
 
   return (
-    <header className="bg-white shadow-sm z-50">
+    <header className="bg-white shadow-sm z-50 dark:bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo and title */}
@@ -58,8 +60,8 @@ const Navbar: React.FC<NavbarProps> = ({ setShowAuthModal }) => {
               </svg>
             </motion.div>
             <div className="flex flex-col">
-              <span className="font-bold text-xl text-primary-950">Legibills</span>
-              <span className="text-xs text-gray-500 -mt-1">Legible Legislature</span>
+              <span className="font-bold text-xl text-primary-950 dark:text-white">Legibills</span>
+              <span className="text-xs text-gray-500 -mt-1 dark:text-gray-400">Legible Legislature</span>
             </div>
           </Link>
 
@@ -77,10 +79,19 @@ const Navbar: React.FC<NavbarProps> = ({ setShowAuthModal }) => {
 
           {/* Right navigation items */}
           <div className="flex items-center space-x-3">
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 dark:text-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
+            >
+              <Moon size={16} className="lucide lucide-moon" />
+              <span className="ml-2">{theme === 'light' ? 'Dark' : 'Light'}</span>
+            </button>
+
             {/* Mobile Search Icon */}
             <button
               onClick={handleSearchIconClick}
-              className="md:hidden text-gray-500 hover:text-primary-600 p-1"
+              className="md:hidden text-gray-500 hover:text-primary-600 p-1 dark:text-gray-400 dark:hover:text-primary-400"
               aria-label="Search"
             >
               <SearchIcon size={20} />
@@ -89,7 +100,7 @@ const Navbar: React.FC<NavbarProps> = ({ setShowAuthModal }) => {
             {session ? (
               <button
                 onClick={handleSignOut}
-                className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+                className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 dark:text-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
               >
                 Sign Out
               </button>
@@ -103,13 +114,13 @@ const Navbar: React.FC<NavbarProps> = ({ setShowAuthModal }) => {
             )}
 
             {/* Notifications */}
-            <Link to="/alerts" className="relative text-gray-500 hover:text-primary-600 p-1">
+            <Link to="/alerts" className="relative text-gray-500 hover:text-primary-600 p-1 dark:text-gray-400 dark:hover:text-primary-400">
               <Bell size={20} />
-              <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-accent-500 ring-2 ring-white"></span>
+              <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-accent-500 ring-2 ring-white dark:ring-gray-800"></span>
             </Link>
 
             {/* User Profile Link */}
-            <Link to="/profile" className="text-gray-500 hover:text-primary-600 p-1">
+            <Link to="/profile" className="text-gray-500 hover:text-primary-600 p-1 dark:text-gray-400 dark:hover:text-primary-400">
               <UserCircle size={24} />
             </Link>
           </div>

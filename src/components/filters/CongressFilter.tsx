@@ -39,7 +39,7 @@ const CongressFilter: React.FC<CongressFilterProps> = ({
     <div className="relative">
       <label 
         htmlFor="congress-select" 
-        className="block text-sm font-medium text-gray-700 mb-1"
+        className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-200"
       >
         Congressional Session
       </label>
@@ -53,7 +53,7 @@ const CongressFilter: React.FC<CongressFilterProps> = ({
             block w-full pl-3 pr-10 py-2 text-base border-gray-300 
             focus:outline-none focus:ring-primary-500 focus:border-primary-500 
             sm:text-sm rounded-md appearance-none transition-colors duration-200
-            ${isLoading ? 'bg-gray-100 cursor-not-allowed' : 'bg-white cursor-pointer'}
+            ${isLoading ? 'bg-gray-100 cursor-not-allowed dark:bg-gray-800 dark:text-gray-400' : 'bg-white cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:text-white'}
           `}
           aria-label="Select Congressional session"
         >
@@ -68,7 +68,7 @@ const CongressFilter: React.FC<CongressFilterProps> = ({
           {isLoading ? (
             <div className="animate-spin h-5 w-5 border-2 border-primary-500 rounded-full border-t-transparent" />
           ) : (
-            <ChevronDown className="h-5 w-5 text-gray-400\" aria-hidden="true" />
+            <ChevronDown className="h-5 w-5 text-gray-400 dark:text-gray-400" aria-hidden="true" />
           )}
         </div>
       </div>

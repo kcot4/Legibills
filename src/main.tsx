@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import App from './App';
 import './index.css';
+import { useBillContext } from './context/BillContext'; // Import useBillContext
 
 // Lazy-loaded components
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -27,6 +28,15 @@ const CategoryView = lazy(() => import('./pages/CategoryView'));
 const Admin = lazy(() => import('./pages/Admin'));
 const UpdatePasswordPage = lazy(() => import('./pages/UpdatePasswordPage'));
 const TrackLegislators = lazy(() => import('./pages/TrackLegislators')); // New lazy-loaded component
+
+// Admin Route Wrapper
+const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { userRole } = useBillContext();
+  if (userRole !== 'admin') {
+    return <Navigate to="/" replace />;
+  }
+  return <>{children}</>;
+};
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -64,26 +74,31 @@ const router = createBrowserRouter(
       <Route path="search" element={<Search />} />
       <Route path="alerts" element={<Alerts />} />
       <Route path="saved" element={<SavedBills />} />
-      <Route path="analytics" element={<Analytics />} />
+      <Route path="analytics" element={<AdminRoute><Analytics /></AdminRoute>} />
       <Route path="profile" element={<Profile />} />
-      <Route path="topic/:topicId" element={<Topic />} />
-      <Route path="topics" element={<Topics />} />
+      {/* Protected Topic Routes */}
+      <Route path="topic/:topicId" element={<AdminRoute><Topic /></AdminRoute>} />
+      <Route path="topics" element={<AdminRoute><Topics /></AdminRoute>} />
       <Route path="committee/:committeeId" element={<Committee />} />
       <Route path="committees" element={<Committees />} />
       <Route path="settings" element={<Settings />} />
       <Route path="category/:category" element={<CategoryView />} />
       <Route path="admin" element={<Admin />} />
       <Route path="update-password" element={<UpdatePasswordPage />} />
-      <Route path="track-legislators" element={<TrackLegislators />} /> {/* New route */}
+      <Route path="track-legislators" element={<AdminRoute><TrackLegislators /></AdminRoute>} /> {/* New route */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Route>
   )
 );
 
+import { ThemeProvider } from './context/ThemeContext';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Suspense fallback={<LoadingFallback />}>
-      <RouterProvider router={router} />
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </Suspense>
   </StrictMode>
 );

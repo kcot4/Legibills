@@ -43,56 +43,71 @@ function parseDate(dateStr: string | null | undefined): string | null {
   }
 }
 
-// Helper function to safely convert values to strings
-function safeStringValue(value: any): string | null {
+// Helper function to safely convert values to strings, always returning a string
+function safeStringValue(value: any): string {
   if (value === null || value === undefined) {
-    return null;
+    return '';
   }
   if (typeof value === 'string') {
-    return value.trim() || null;
+    return value.trim();
   }
   if (typeof value === 'number') {
     return value.toString();
   }
   // For any other type, convert to string and trim
   try {
-    const stringValue = String(value).trim();
-    return stringValue || null;
+    return String(value).trim();
   } catch {
-    return null;
+    return '';
   }
 }
 
 // Helper function to validate and clean sponsor data (re-used for legislators)
 function validateLegislatorData(member: any): { isValid: boolean; reason?: string; cleanedMember?: any } {
+  // Use safeStringValue to ensure non-null strings for required fields
+  const bioguideId = safeStringValue(member.bioguideId);
+  const firstName = safeStringValue(member.firstName);
+  const lastName = safeStringValue(member.lastName);
+  const party = safeStringValue(member.partyHistory?.[0]?.partyName);
+  const state = safeStringValue(member.state);
+  const chamber = safeStringValue(member.terms?.[0]?.chamber);
+
+  // Construct fullName if not directly available or empty
+  let fullName = safeStringValue(member.fullName);
+  if (!fullName && (firstName || lastName)) {
+    fullName = `${firstName} ${lastName}`.trim();
+  }
+  if (!fullName) { // If still empty, it's a critical missing piece
+    return { isValid: false, reason: 'Missing or unconstructable fullName' };
+  }
+
   // Check for required fields that are NOT NULL in the database
-  if (!member.bioguideId) {
+  if (!bioguideId) {
     return { isValid: false, reason: 'Missing bioguideId' };
   }
-  if (!member.fullName) {
-    return { isValid: false, reason: 'Missing fullName' };
+  if (!party) {
+    return { isValid: false, reason: 'Missing party' };
   }
-  // Party, state, and chamber might be missing for some historical members or edge cases
-  // We'll provide fallbacks for these in the upsert data
+  if (!state) {
+    return { isValid: false, reason: 'Missing state' };
+  }
+  if (!chamber) {
+    return { isValid: false, reason: 'Missing chamber' };
+  }
 
   const cleanedMember = {
-    bioguideId: safeStringValue(member.bioguideId) || '',
-    fullName: safeStringValue(member.fullName) || '',
-    firstName: safeStringValue(member.firstName) || null,
-    lastName: safeStringValue(member.lastName) || null,
-    party: safeStringValue(member.partyHistory?.[0]?.partyName) || 'Unknown',
-    state: safeStringValue(member.state) || 'Unknown',
-    chamber: safeStringValue(member.terms?.[0]?.chamber) || 'Unknown',
+    bioguideId: bioguideId,
+    fullName: fullName,
+    firstName: firstName || null, // Can be null in DB
+    lastName: lastName || null,   // Can be null in DB
+    party: party,
+    state: state,
+    chamber: chamber,
     congressStartDate: member.terms?.[0]?.start || null,
     congressEndDate: member.terms?.[member.terms.length - 1]?.end || null,
     url: safeStringValue(member.url) || null,
     imageUrl: safeStringValue(member.depiction?.imageUrl) || null,
   };
-
-  // Final validation after cleaning for critical NOT NULL fields
-  if (!cleanedMember.bioguideId || !cleanedMember.fullName || !cleanedMember.party || !cleanedMember.state || !cleanedMember.chamber) {
-    return { isValid: false, reason: 'Critical fields became empty after cleaning' };
-  }
 
   return { isValid: true, cleanedMember };
 }

@@ -30,10 +30,10 @@ class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
-          <div className="max-w-md w-full mx-auto p-6 bg-white rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Something went wrong</h2>
-            <p className="text-gray-600 mb-4">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+          <div className="max-w-md w-full mx-auto p-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+            <h2 className="text-xl font-semibold text-gray-900 mb-2 dark:text-white">Something went wrong</h2>
+            <p className="text-gray-600 mb-4 dark:text-gray-300">
               {this.state.error?.message || 'An unexpected error occurred'}
             </p>
             <button
@@ -46,7 +46,7 @@ class ErrorBoundary extends Component<Props, State> {
             >
               Reload Application
             </button>
-            <p className="mt-4 text-sm text-gray-500">
+            <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
               If the problem persists, please contact support.
             </p>
           </div>

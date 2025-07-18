@@ -29,7 +29,7 @@ export default function SearchFilters({ filterByTrackedLegislators, setFilterByT
         <input
           type="text"
           placeholder="Search bills..."
-          className="flex-1 min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:ring-blue-700"
           value={searchParams.get('q') || ''}
           onChange={(e) => handleFilterChange('q', e.target.value)}
         />
@@ -38,7 +38,7 @@ export default function SearchFilters({ filterByTrackedLegislators, setFilterByT
         <button
           type="button"
           onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-          className="md:hidden px-3 py-2 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50 transition-colors flex items-center"
+          className="md:hidden px-3 py-2 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50 transition-colors flex items-center dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600"
         >
           {showAdvancedFilters ? <X size={16} className="mr-2" /> : <Filter size={16} className="mr-2" />}
           Filters
@@ -60,49 +60,49 @@ export default function SearchFilters({ filterByTrackedLegislators, setFilterByT
               />
 
               <select
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-700"
                 value={searchParams.get('category') || ''}
                 onChange={(e) => handleFilterChange('category', e.target.value)}
               >
-                <option value="">All Categories</option>
-                <option value="recent">Recent</option>
-                <option value="trending">Trending</option>
-                <option value="upcoming">Upcoming</option>
-                <option value="enacted">Enacted</option>
+                <option value="" className="dark:bg-gray-700 dark:text-white">All Categories</option>
+                <option value="recent" className="dark:bg-gray-700 dark:text-white">Recent</option>
+                <option value="trending" className="dark:bg-gray-700 dark:text-white">Trending</option>
+                <option value="upcoming" className="dark:bg-gray-700 dark:text-white">Upcoming</option>
+                <option value="enacted" className="dark:bg-gray-700 dark:text-white">Enacted</option>
               </select>
 
               <select
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-700"
                 value={searchParams.get('status') || ''}
                 onChange={(e) => handleFilterChange('status', e.target.value)}
               >
-                <option value="">All Statuses</option>
-                <option value="introduced">Introduced</option>
-                <option value="passed_house">Passed House</option>
-                <option value="passed_senate">Passed Senate</option>
-                <option value="enacted">Enacted</option>
-                <option value="vetoed">Vetoed</option>
+                <option value="" className="dark:bg-gray-700 dark:text-white">All Statuses</option>
+                <option value="introduced" className="dark:bg-gray-700 dark:text-white">Introduced</option>
+                <option value="passed_house" className="dark:bg-gray-700 dark:text-white">Passed House</option>
+                <option value="passed_senate" className="dark:bg-gray-700 dark:text-white">Passed Senate</option>
+                <option value="enacted" className="dark:bg-gray-700 dark:text-white">Enacted</option>
+                <option value="vetoed" className="dark:bg-gray-700 dark:text-white">Vetoed</option>
               </select>
 
               <select
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-700"
                 value={searchParams.get('chamber') || ''}
                 onChange={(e) => handleFilterChange('chamber', e.target.value)}
               >
-                <option value="">All Chambers</option>
-                <option value="house">House</option>
-                <option value="senate">Senate</option>
+                <option value="" className="dark:bg-gray-700 dark:text-white">All Chambers</option>
+                <option value="house" className="dark:bg-gray-700 dark:text-white">House</option>
+                <option value="senate" className="dark:bg-gray-700 dark:text-white">Senate</option>
               </select>
 
               {/* Checkbox for filtering by tracked legislators */}
-              <label className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer">
+              <label className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer dark:bg-gray-800 dark:border-gray-700">
                 <input
                   type="checkbox"
                   checked={filterByTrackedLegislators}
                   onChange={(e) => setFilterByTrackedLegislators(e.target.checked)}
-                  className="form-checkbox h-5 w-5 text-primary-600 rounded focus:ring-primary-500"
+                  className="form-checkbox h-5 w-5 text-primary-600 rounded focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:checked:bg-primary-600 dark:focus:ring-primary-500"
                 />
-                <span className="text-gray-700">Only Tracked Legislators</span>
+                <span className="text-gray-700 dark:text-gray-200">Only Tracked Legislators</span>
               </label>
             </motion.div>
           )}

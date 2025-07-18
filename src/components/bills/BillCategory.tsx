@@ -206,14 +206,14 @@ const BillCategory: React.FC<BillCategoryProps> = ({
     <div className="mb-8">
       <div className="flex justify-between items-center mb-4">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 flex items-center">
+          <h2 className="text-xl font-semibold text-gray-900 flex items-center dark:text-white">
             {getCategoryIcon()}
             <span className="ml-2">{title}</span>
-            <span className="ml-2 text-sm text-gray-500">
+            <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
               ({totalCount} {category === 'trending' ? 'top bills' : 'total'})
             </span>
           </h2>
-          <p className="text-sm text-gray-600 mt-1 ml-7">
+          <p className="text-sm text-gray-600 mt-1 ml-7 dark:text-gray-300">
             {getCategoryDescription()}
           </p>
         </div>
@@ -233,13 +233,13 @@ const BillCategory: React.FC<BillCategoryProps> = ({
       </div>
       
       {filteredBills.length === 0 && category === 'enacted' && (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
           <p className="text-sm">No bills have been enacted in the last 30 days.</p>
         </div>
       )}
 
       {filteredBills.length === 0 && category === 'recent' && (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
           <p className="text-sm">No bills have been introduced in the last 90 days.</p>
         </div>
       )}

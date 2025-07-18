@@ -155,7 +155,7 @@ const CategoryView: React.FC = () => {
       <div className="mb-4">
         <Link
           to="/"
-          className="inline-flex items-center text-gray-600 hover:text-primary-600"
+          className="inline-flex items-center text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400"
         >
           <ArrowLeft size={16} className="mr-1" />
           <span>Back to dashboard</span>
@@ -163,13 +163,13 @@ const CategoryView: React.FC = () => {
       </div>
 
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl font-bold text-gray-900 mb-2 dark:text-white">
           {categoryTitles[category as BillCategory]}
         </h1>
-        <p className="text-gray-600 mb-2">
+        <p className="text-gray-600 mb-2 dark:text-gray-300">
           {categoryDescriptions[category as BillCategory]}
         </p>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
           {filteredBills.length} bills in this category
           {category === 'trending' && filteredBills.length > 0 && (
             <span className="ml-2 text-primary-600">
@@ -180,9 +180,9 @@ const CategoryView: React.FC = () => {
       </div>
 
       {filteredBills.length === 0 ? (
-        <div className="text-center py-12">
-          <h2 className="text-lg font-medium text-gray-900 mb-2">No bills found</h2>
-          <p className="text-gray-600">
+        <div className="text-center py-12 dark:text-gray-400">
+          <h2 className="text-lg font-medium text-gray-900 mb-2 dark:text-white">No bills found</h2>
+          <p className="text-gray-600 dark:text-gray-300">
             {category === 'enacted' 
               ? 'No bills have been enacted in the last 30 days.'
               : category === 'recent'

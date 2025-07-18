@@ -16,7 +16,7 @@ const Layout: React.FC<LayoutProps> = ({ children, setShowAuthModal }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gray-50 flex flex-col dark:bg-gray-900 dark:text-gray-100">
       <Navbar setShowAuthModal={setShowAuthModal} /> {/* Pass prop to Navbar */}
       
       <div className="flex flex-1 overflow-hidden">
@@ -37,7 +37,7 @@ const Layout: React.FC<LayoutProps> = ({ children, setShowAuthModal }) => {
             lg:relative fixed inset-y-0 left-0 
             transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
             lg:translate-x-0 transition-transform duration-300 ease-in-out
-            bg-white w-64 lg:w-72 z-40 shadow-md
+            bg-white w-64 lg:w-72 z-40 shadow-md dark:bg-gray-800
           `}
         >
           <Sidebar toggleSidebar={toggleSidebar} />

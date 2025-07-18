@@ -73,7 +73,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
-            className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto dark:bg-gray-800"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -102,13 +102,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             <div className="p-6 space-y-6">
               <form className="space-y-4" onSubmit={handleAuth}>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-200">Email Address</label>
                   <div className="relative">
                     <Mail size={18} className="lucide lucide-mail absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                     <input
                       type="email"
                       id="email"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                       placeholder="your.email@example.com"
                       required
                       value={email}
@@ -117,13 +117,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-200">Password</label>
                   <div className="relative">
                     <Lock size={18} className="lucide lucide-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                     <input
                       type="password"
                       id="password"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                       placeholder="Enter your password"
                       required
                       value={password}
@@ -139,8 +139,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                   {loading ? 'Loading...' : (isSignUp ? 'Sign Up' : 'Sign In')}
                 </button>
               </form>
-              <div className="text-center pt-4 border-t border-gray-200">
-                <p className="text-sm text-gray-600">
+              <div className="text-center pt-4 border-t border-gray-200 dark:border-gray-700">
+                <p className="text-sm text-gray-600 dark:text-gray-300">
                   {isSignUp ? 'Already have an account?' : 'Don\'t have an account?'}
                   <button
                     type="button"
@@ -153,7 +153,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                 {!isSignUp && (
                   <button
                     type="button"
-                    className="mt-2 text-sm text-gray-500 hover:text-gray-700 font-medium"
+                    className="mt-2 text-sm text-gray-500 hover:text-gray-700 font-medium dark:text-gray-400 dark:hover:text-gray-200"
                     onClick={handleForgotPasswordClick}
                   >
                     Forgot your password?

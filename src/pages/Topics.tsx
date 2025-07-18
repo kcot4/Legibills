@@ -51,8 +51,8 @@ const Topics: React.FC = () => {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Legislative Topics</h1>
-        <p className="text-gray-600">
+        <h1 className="text-2xl font-bold text-gray-900 mb-2 dark:text-white">Legislative Topics</h1>
+        <p className="text-gray-600 dark:text-gray-300">
           Browse and analyze topics covered in congressional legislation
         </p>
       </div>
@@ -64,18 +64,18 @@ const Topics: React.FC = () => {
             layout
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden"
+            className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden dark:bg-gray-800 dark:border-gray-700"
           >
             <div 
-              className="p-6 cursor-pointer hover:bg-gray-50 transition-colors"
+              className="p-6 cursor-pointer hover:bg-gray-50 transition-colors dark:hover:bg-gray-700"
               onClick={() => toggleExpand(topic)}
             >
               <div className="flex justify-between items-start mb-4">
-                <h2 className="text-lg font-semibold text-gray-900 hover:text-primary-600">
+                <h2 className="text-lg font-semibold text-gray-900 hover:text-primary-600 dark:text-white dark:hover:text-primary-400">
                   {topic}
                 </h2>
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm font-medium text-primary-600 bg-primary-50 px-2 py-1 rounded-full">
+                  <span className="text-sm font-medium text-primary-600 bg-primary-50 px-2 py-1 rounded-full dark:bg-primary-900 dark:text-primary-300">
                     {count} bills
                   </span>
                   {expandedTopic === topic ? (
@@ -89,11 +89,11 @@ const Topics: React.FC = () => {
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="flex items-center space-x-2">
                   <Users size={16} className="text-gray-400" />
-                  <span className="text-sm text-gray-600">{sponsorCount} sponsors</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-300">{sponsorCount} sponsors</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <TrendingUp size={16} className="text-gray-400" />
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-600 dark:text-gray-300">
                     {statusBreakdown.find(([status]) => status === 'enacted')?.[1] || 0} enacted
                   </span>
                 </div>
@@ -107,30 +107,30 @@ const Topics: React.FC = () => {
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="border-t border-gray-200 pt-4 mt-4">
-                      <h3 className="text-sm font-medium text-gray-900 mb-3">Status Breakdown</h3>
+                    <div className="border-t border-gray-200 pt-4 mt-4 dark:border-gray-700">
+                      <h3 className="text-sm font-medium text-gray-900 mb-3 dark:text-white">Status Breakdown</h3>
                       <div className="space-y-2">
                         {statusBreakdown.map(([status, count]) => (
                           <div key={status} className="flex items-center justify-between">
                             <StatusBadge status={status} />
-                            <span className="text-sm text-gray-600">{count}</span>
+                            <span className="text-sm text-gray-600 dark:text-gray-300">{count}</span>
                           </div>
                         ))}
                       </div>
 
-                      <h3 className="text-sm font-medium text-gray-900 mt-4 mb-3">Recent Bills</h3>
+                      <h3 className="text-sm font-medium text-gray-900 mt-4 mb-3 dark:text-white">Recent Bills</h3>
                       <div className="space-y-3">
                         {recentBills.map(bill => (
                           <Link
                             key={bill.id}
                             to={`/bill/${bill.id}`}
-                            className="block hover:bg-gray-50 rounded-md p-2 -mx-2"
+                            className="block hover:bg-gray-50 rounded-md p-2 -mx-2 dark:hover:bg-gray-700"
                           >
                             <div className="flex items-start">
                               <StatusBadge status={bill.status} />
                               <div className="ml-2">
-                                <p className="text-sm font-medium text-gray-900">{bill.number}</p>
-                                <p className="text-sm text-gray-600 line-clamp-2">{bill.title}</p>
+                                <p className="text-sm font-medium text-gray-900 dark:text-white">{bill.number}</p>
+                                <p className="text-sm text-gray-600 line-clamp-2 dark:text-gray-300">{bill.title}</p>
                               </div>
                             </div>
                           </Link>

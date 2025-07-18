@@ -58,7 +58,7 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({ isOpen, onClose
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
-            className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto dark:bg-gray-800"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -86,16 +86,16 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({ isOpen, onClose
             {/* Content */}
             <div className="p-6 space-y-6">
               {message && <p className="text-green-600 text-center">{message}</p>}
-              {error && <p className="text-red-600 text-center">{error}</p>}
+              {error && <p className="text-red-600 text-center dark:text-red-400">{error}</p>}
               <form className="space-y-4" onSubmit={handleResetPassword}>
                 <div>
-                  <label htmlFor="resetEmail" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                  <label htmlFor="resetEmail" className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-200">Email Address</label>
                   <div className="relative">
                     <Mail size={18} className="lucide lucide-mail absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                     <input
                       type="email"
                       id="resetEmail"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                       placeholder="your.email@example.com"
                       required
                       value={email}

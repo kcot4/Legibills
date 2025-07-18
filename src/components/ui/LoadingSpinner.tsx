@@ -9,8 +9,8 @@ interface LoadingSpinnerProps {
   progress?: number;
 }
 
-const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
-  size = 'md', 
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+  size = 'md',
   variant = 'default',
   message,
   progress
@@ -43,11 +43,11 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
         {/* Animated Icons */}
         <div className="relative mb-6">
           <motion.div
-            animate={{ 
+            animate={{
               rotate: 360,
               scale: [1, 1.1, 1]
             }}
-            transition={{ 
+            transition={{
               rotate: { duration: 3, repeat: Infinity, ease: "linear" },
               scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
             }}
@@ -57,7 +57,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
               <FileText className="w-8 h-8 text-white" />
             </div>
           </motion.div>
-          
+
           {/* Orbiting Icons */}
           <motion.div
             animate={{ rotate: -360 }}
@@ -66,36 +66,36 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
           >
             <motion.div
               className="absolute -top-2 left-1/2 transform -translate-x-1/2"
-              animate={{ 
+              animate={{
                 y: [0, -4, 0],
                 scale: [0.8, 1, 0.8]
               }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Infinity, 
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
                 ease: "easeInOut",
                 delay: 0
               }}
             >
-              <div className="w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center shadow-md">
+              <div className="w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center shadow-md dark:bg-accent-700">
                 <Clock className="w-3 h-3 text-white" />
               </div>
             </motion.div>
-            
+
             <motion.div
               className="absolute top-1/2 -right-2 transform -translate-y-1/2"
-              animate={{ 
+              animate={{
                 x: [0, 4, 0],
                 scale: [0.8, 1, 0.8]
               }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Infinity, 
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
                 ease: "easeInOut",
                 delay: 0.5
               }}
             >
-              <div className="w-6 h-6 rounded-full bg-success-500 flex items-center justify-center shadow-md">
+              <div className="w-6 h-6 rounded-full bg-success-500 flex items-center justify-center shadow-md dark:bg-success-700">
                 <Users className="w-3 h-3 text-white" />
               </div>
             </motion.div>
@@ -109,10 +109,10 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
           transition={{ delay: 0.2 }}
           className="space-y-2"
         >
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             {message || 'Loading Bills'}
           </h3>
-          <p className="text-sm text-gray-600 max-w-xs">
+          <p className="text-sm text-gray-600 max-w-xs dark:text-gray-300">
             Fetching the latest congressional legislation and updates...
           </p>
         </motion.div>
@@ -125,11 +125,11 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
             transition={{ delay: 0.4 }}
             className="w-full max-w-xs mt-4"
           >
-            <div className="flex justify-between text-xs text-gray-500 mb-1">
+            <div className="flex justify-between text-xs text-gray-500 mb-1 dark:text-gray-400">
               <span>Progress</span>
               <span>{Math.round(progress)}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+            <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden dark:bg-gray-700">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
@@ -160,7 +160,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
                 delay: i * 0.2,
                 ease: "easeInOut"
               }}
-              className="w-2 h-2 bg-primary-400 rounded-full"
+              className="w-2 h-2 bg-primary-400 rounded-full dark:bg-primary-600"
             />
           ))}
         </motion.div>
@@ -175,15 +175,15 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
         className="mb-4"
       >
-        <Loader2 className={`${sizeClasses[size]} text-primary-600`} />
+        <Loader2 className={`${sizeClasses[size]} text-primary-600 dark:text-primary-400`} />
       </motion.div>
-      
+
       {message && (
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-sm text-gray-600"
+          className="text-sm text-gray-600 dark:text-gray-300"
         >
           {message}
         </motion.p>

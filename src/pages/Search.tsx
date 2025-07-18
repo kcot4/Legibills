@@ -219,7 +219,7 @@ export default function Search() {
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Search Bills</h1>
+        <h1 className="text-3xl font-bold mb-8 dark:text-white">Search Bills</h1>
         <SearchFilters 
           filterByTrackedLegislators={filterByTrackedLegislators}
           setFilterByTrackedLegislators={setFilterByTrackedLegislators}
@@ -237,7 +237,7 @@ export default function Search() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Search Bills</h1>
+      <h1 className="text-3xl font-bold mb-8 dark:text-white">Search Bills</h1>
       
       <SearchFilters 
         filterByTrackedLegislators={filterByTrackedLegislators}
@@ -245,7 +245,7 @@ export default function Search() {
       />
       
       {error ? (
-        <div className="text-red-600 mb-4">{error}</div>
+        <div className="text-red-600 mb-4 dark:text-red-400">{error}</div>
       ) : (
         <SearchResults 
           bills={bills} 

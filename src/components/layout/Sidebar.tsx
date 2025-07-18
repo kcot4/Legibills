@@ -16,6 +16,9 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
     { icon: <Search size={20} />, label: 'Search', path: '/search' },
     { icon: <Bell size={20} />, label: 'My Alerts', path: '/alerts' },
     { icon: <Bookmark size={20} />, label: 'Saved Bills', path: '/saved' },
+  ];
+
+  const adminNavItems = [
     { icon: <Users size={20} />, label: 'Track Legislators', path: '/track-legislators' },
     { icon: <BarChart size={20} />, label: 'Analytics', path: '/analytics' },
   ];
@@ -62,12 +65,12 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
     .filter(Boolean);
 
   return (
-    <div className="h-full flex flex-col bg-white border-r">
+    <div className="h-full flex flex-col bg-white border-r dark:bg-gray-800 dark:border-gray-700">
       {/* Mobile close button */}
       <div className="lg:hidden flex justify-end p-4">
         <button 
           onClick={toggleSidebar}
-          className="text-gray-500 hover:text-gray-700"
+          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
           aria-label="Close sidebar"
         >
           <X size={24} />
@@ -77,7 +80,7 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
       {/* Navigation */}
       <nav className="flex-1 px-4 py-4 space-y-6">
         <div className="space-y-2">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider dark:text-gray-400">
             Main
           </h3>
           
@@ -89,8 +92,25 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
                 className={({ isActive }) =>
                   `flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                     isActive
-                      ? 'bg-primary-50 text-primary-700'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-primary-50 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
+                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                  }`
+                }
+                onClick={() => toggleSidebar()}
+              >
+                <span className="mr-3">{item.icon}</span>
+                {item.label}
+              </NavLink>
+            ))}
+            {userRole === 'admin' && adminNavItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  `flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                    isActive
+                      ? 'bg-primary-50 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
+                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
                   }`
                 }
                 onClick={() => toggleSidebar()}
@@ -104,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
 
         {userRole === 'admin' && ( // Conditionally render admin items
           <div className="space-y-2">
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider dark:text-gray-400">
               Administration
             </h3>
             
@@ -116,8 +136,8 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
                   className={({ isActive }) =>
                     `flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                       isActive
-                        ? 'bg-primary-50 text-primary-700'
-                        : 'text-gray-700 hover:bg-gray-100'
+                        ? 'bg-primary-50 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
+                        : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
                     }`
                   }
                   onClick={() => toggleSidebar()}
@@ -130,55 +150,57 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
           </div>
         )}
 
-        <div className="space-y-2">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex justify-between">
-            <span>Popular Topics</span>
-            <button className="text-primary-600 hover:text-primary-800 text-xs font-medium">
-              Edit
-            </button>
-          </h3>
-          
-          <div className="space-y-1">
-            {sortedTopics.length > 0 ? (
-              sortedTopics.map((topic) => (
-                <NavLink
-                  key={topic}
-                  to={`/topic/${encodeURIComponent(topic.toLowerCase())}`}
-                  className={({ isActive }) =>
-                    `flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                      isActive
-                        ? 'bg-primary-50 text-primary-700'
-                        : 'text-gray-700 hover:bg-gray-100'
-                    }`
-                  }
-                  onClick={() => toggleSidebar()}
-                >
-                  <span className="w-2 h-2 mr-3 rounded-full bg-primary-400"></span>
-                  {topic}
-                  <span className="ml-auto text-xs text-gray-500">
-                    {topicFrequency.get(topic)}
-                  </span>
-                </NavLink>
-              ))
-            ) : (
-              <div className="px-3 py-2 text-sm text-gray-500">
-                No topics available
-              </div>
-            )}
+        {userRole === 'admin' && (
+          <div className="space-y-2">
+            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex justify-between dark:text-gray-400">
+              <span>Popular Topics</span>
+              <button className="text-primary-600 hover:text-primary-800 text-xs font-medium">
+                Edit
+              </button>
+            </h3>
             
-            <NavLink
-              to="/topics"
-              className="flex items-center px-3 py-2 text-sm font-medium text-primary-600 hover:bg-gray-100 rounded-md"
-              onClick={() => toggleSidebar()}
-            >
-              <span className="mr-1">See all topics</span>
-              <ChevronRight size={16} />
-            </NavLink>
+            <div className="space-y-1">
+              {sortedTopics.length > 0 ? (
+                sortedTopics.map((topic) => (
+                  <NavLink
+                    key={topic}
+                    to={`/topic/${encodeURIComponent(topic.toLowerCase())}`}
+                    className={({ isActive }) =>
+                      `flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                        isActive
+                          ? 'bg-primary-50 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
+                          : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                      }`
+                    }
+                    onClick={() => toggleSidebar()}
+                  >
+                    <span className="w-2 h-2 mr-3 rounded-full bg-primary-400"></span>
+                    {topic}
+                    <span className="ml-auto text-xs text-gray-500 dark:text-gray-400">
+                      {topicFrequency.get(topic)}
+                    </span>
+                  </NavLink>
+                ))
+              ) : (
+                <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+                  No topics available
+                </div>
+              )}
+              
+              <NavLink
+                to="/topics"
+                className="flex items-center px-3 py-2 text-sm font-medium text-primary-600 hover:bg-gray-100 rounded-md dark:hover:bg-gray-700"
+                onClick={() => toggleSidebar()}
+              >
+                <span className="mr-1">See all topics</span>
+                <ChevronRight size={16} />
+              </NavLink>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="space-y-2">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex justify-between">
+          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex justify-between dark:text-gray-400">
             <span>Active Committees</span>
             <button className="text-primary-600 hover:text-primary-800 text-xs font-medium">
               Edit
@@ -194,28 +216,28 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
                   className={({ isActive }) =>
                     `flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                       isActive
-                        ? 'bg-primary-50 text-primary-700'
-                        : 'text-gray-700 hover:bg-gray-100'
+                        ? 'bg-primary-50 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
+                        : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
                     }`
                   }
                   onClick={() => toggleSidebar()}
                 >
                   <Building size={14} className="mr-3 text-blue-500 flex-shrink-0" />
                   <span className="truncate">{committee}</span>
-                  <span className="ml-auto text-xs text-gray-500 flex-shrink-0">
+                  <span className="ml-auto text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
                     {committeeFrequency.get(committee)}
                   </span>
                 </NavLink>
               ))
             ) : (
-              <div className="px-3 py-2 text-sm text-gray-500">
+              <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
                 No committees available
               </div>
             )}
             
             <NavLink
               to="/committees"
-              className="flex items-center px-3 py-2 text-sm font-medium text-primary-600 hover:bg-gray-100 rounded-md"
+              className="flex items-center px-3 py-2 text-sm font-medium text-primary-600 hover:bg-gray-100 rounded-md dark:hover:bg-gray-700"
               onClick={() => toggleSidebar()}
             >
               <span className="mr-1">See all committees</span>
@@ -225,7 +247,7 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider dark:text-gray-400">
             Tracked Bills
           </h3>
           
@@ -240,8 +262,8 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
                     className={({ isActive }) =>
                       `flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                         isActive
-                          ? 'bg-primary-50 text-primary-700'
-                          : 'text-gray-700 hover:bg-gray-100'
+                          ? 'bg-primary-50 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
+                          : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
                       }`
                     }
                     onClick={() => toggleSidebar()}
@@ -252,7 +274,7 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
                 ))}
             </div>
           ) : (
-            <div className="px-3 py-2 text-sm text-gray-500">
+            <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
               Track bills to see updates here
             </div>
           )}
@@ -260,10 +282,10 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
       </nav>
 
       {/* Settings */}
-      <div className="p-4 border-t">
+      <div className="p-4 border-t dark:border-gray-700">
         <NavLink
           to="/settings"
-          className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+          className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md dark:text-gray-300 dark:hover:bg-gray-700"
           onClick={() => toggleSidebar()}
         >
           <Settings size={20} className="mr-3" />

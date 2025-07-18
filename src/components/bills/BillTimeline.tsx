@@ -18,30 +18,30 @@ const BillTimeline: React.FC<BillTimelineProps> = ({ bill }) => {
 
   if (timelineEvents.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500">
+      <div className="text-center py-8 text-gray-500 dark:text-gray-400">
         <Clock size={24} className="mx-auto mb-2 text-gray-400" />
-        <p className="text-sm font-medium text-gray-700 mb-1">No Timeline Available</p>
-        <p className="text-xs text-gray-500">
+        <p className="text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">No Timeline Available</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
           Timeline data is being processed for this bill.
         </p>
         
         {/* Show basic bill info as fallback */}
-        <div className="mt-4 p-3 bg-gray-50 rounded-md text-left">
+        <div className="mt-4 p-3 bg-gray-50 rounded-md text-left dark:bg-gray-700">
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-medium text-gray-600">Introduced:</span>
-              <span className="text-xs text-gray-800">
+              <span className="text-xs font-medium text-gray-600 dark:text-gray-300">Introduced:</span>
+              <span className="text-xs text-gray-800 dark:text-gray-200">
                 {bill.introducedDate ? format(new Date(bill.introducedDate), 'MMM d, yyyy') : 'Unknown'}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs font-medium text-gray-600">Last Action:</span>
-              <span className="text-xs text-gray-800">
+              <span className="text-xs font-medium text-gray-600 dark:text-gray-300">Last Action:</span>
+              <span className="text-xs text-gray-800 dark:text-gray-200">
                 {bill.lastActionDate ? format(new Date(bill.lastActionDate), 'MMM d, yyyy') : 'Unknown'}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs font-medium text-gray-600">Status:</span>
+              <span className="text-xs font-medium text-gray-600 dark:text-gray-300">Status:</span>
               <StatusBadge status={bill.status} />
             </div>
           </div>
@@ -72,7 +72,7 @@ const BillTimeline: React.FC<BillTimelineProps> = ({ bill }) => {
     }
     
     if (actionLower.includes('introduced')) {
-      return <Gavel size={16} className="text-gray-500" />;
+      return <Gavel size={16} className="text-gray-500 dark:text-gray-400" />;
     }
     
     if (actionLower.includes('house') || actionLower.includes('senate')) {
@@ -92,40 +92,40 @@ const BillTimeline: React.FC<BillTimelineProps> = ({ bill }) => {
     
     if (isLatest) {
       return {
-        iconBg: 'bg-primary-100',
-        iconRing: 'ring-primary-200',
-        connector: 'bg-primary-200'
+        iconBg: 'bg-primary-100 dark:bg-primary-900',
+        iconRing: 'ring-primary-200 dark:ring-gray-800',
+        connector: 'bg-primary-200 dark:bg-primary-700'
       };
     }
     
     if (statusLower.includes('enacted') || statusLower.includes('signed')) {
       return {
-        iconBg: 'bg-success-100',
-        iconRing: 'ring-success-200',
-        connector: 'bg-success-200'
+        iconBg: 'bg-success-100 dark:bg-success-900',
+        iconRing: 'ring-success-200 dark:ring-gray-800',
+        connector: 'bg-success-200 dark:bg-success-700'
       };
     }
     
     if (statusLower.includes('vetoed')) {
       return {
-        iconBg: 'bg-error-100',
-        iconRing: 'ring-error-200',
-        connector: 'bg-error-200'
+        iconBg: 'bg-error-100 dark:bg-error-900',
+        iconRing: 'ring-error-200 dark:ring-gray-800',
+        connector: 'bg-error-200 dark:bg-error-700'
       };
     }
     
     if (statusLower.includes('passed')) {
       return {
-        iconBg: 'bg-blue-100',
-        iconRing: 'ring-blue-200',
-        connector: 'bg-blue-200'
+        iconBg: 'bg-blue-100 dark:bg-blue-900',
+        iconRing: 'ring-blue-200 dark:ring-gray-800',
+        connector: 'bg-blue-200 dark:bg-blue-700'
       };
     }
     
     return {
-      iconBg: 'bg-gray-100',
-      iconRing: 'ring-gray-200',
-      connector: 'bg-gray-200'
+      iconBg: 'bg-gray-100 dark:bg-gray-700',
+      iconRing: 'ring-gray-200 dark:ring-gray-800',
+      connector: 'bg-gray-200 dark:bg-gray-600'
     };
   };
 
@@ -143,11 +143,11 @@ const BillTimeline: React.FC<BillTimelineProps> = ({ bill }) => {
   return (
     <div className="flow-root">
       <div className="mb-4">
-        <h3 className="text-sm font-medium text-gray-900 flex items-center">
-          <Clock size={16} className="mr-2 text-gray-500" />
+        <h3 className="text-sm font-medium text-gray-900 flex items-center dark:text-white">
+          <Clock size={16} className="mr-2 text-gray-500 dark:text-gray-400" />
           Legislative Timeline
         </h3>
-        <p className="text-xs text-gray-500 mt-1">
+        <p className="text-xs text-gray-500 mt-1 dark:text-gray-400">
           {timelineEvents.length} events tracked
         </p>
       </div>
@@ -170,7 +170,7 @@ const BillTimeline: React.FC<BillTimelineProps> = ({ bill }) => {
                 <div className="relative flex space-x-3">
                   <div>
                     <span 
-                      className={`h-8 w-8 rounded-full ${style.iconBg} flex items-center justify-center ring-8 ring-white ${style.iconRing}`}
+                      className={`h-8 w-8 rounded-full ${style.iconBg} flex items-center justify-center ring-8 ring-white dark:ring-gray-900 ${style.iconRing}`}
                     >
                       {getEventIcon(event.action, event.status, isLatest)}
                     </span>
@@ -180,7 +180,7 @@ const BillTimeline: React.FC<BillTimelineProps> = ({ bill }) => {
                     <div className="flex flex-col space-y-2">
                       {/* Action and Status */}
                       <div className="flex flex-col space-y-1">
-                        <p className="text-sm text-gray-900 font-medium leading-5">
+                        <p className="text-sm text-gray-900 font-medium leading-5 dark:text-white">
                           {formatActionText(event.action)}
                         </p>
                         
@@ -188,7 +188,7 @@ const BillTimeline: React.FC<BillTimelineProps> = ({ bill }) => {
                         <div className="flex items-center space-x-2">
                           <StatusBadge status={event.status as any} />
                           {isLatest && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300">
                               Latest
                             </span>
                           )}
@@ -199,11 +199,11 @@ const BillTimeline: React.FC<BillTimelineProps> = ({ bill }) => {
                       <div className="text-right">
                         <time 
                           dateTime={event.date}
-                          className="text-sm text-gray-500 font-medium"
+                          className="text-sm text-gray-500 font-medium dark:text-gray-400"
                         >
                           {format(new Date(event.date), 'MMM d, yyyy')}
                         </time>
-                        <div className="text-xs text-gray-400">
+                        <div className="text-xs text-gray-400 dark:text-gray-500">
                           {format(new Date(event.date), 'h:mm a')}
                         </div>
                       </div>
@@ -217,8 +217,8 @@ const BillTimeline: React.FC<BillTimelineProps> = ({ bill }) => {
       </ul>
       
       {/* Timeline Summary */}
-      <div className="mt-6 pt-4 border-t border-gray-200">
-        <div className="flex items-center justify-between text-sm text-gray-600">
+      <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
           <span className="flex items-center">
             <Clock size={14} className="mr-1" />
             {timelineEvents.length} events tracked
@@ -234,11 +234,11 @@ const BillTimeline: React.FC<BillTimelineProps> = ({ bill }) => {
         
         {/* Progress indicator */}
         <div className="mt-3">
-          <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+          <div className="flex items-center justify-between text-xs text-gray-500 mb-1 dark:text-gray-400">
             <span>Introduced</span>
             <span>Current Status</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-600">
             <div 
               className="bg-primary-600 h-2 rounded-full transition-all duration-300"
               style={{ 

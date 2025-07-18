@@ -346,22 +346,22 @@ const Admin: React.FC = () => {
     .sort();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white shadow-sm border-b dark:bg-gray-800 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center">
+              <h1 className="text-2xl font-bold text-gray-900 flex items-center dark:text-white">
                 <Settings size={24} className="mr-2 text-primary-600" />
                 Bill Topic Administration
               </h1>
-              <p className="text-gray-600 mt-1">
+              <p className="text-gray-600 mt-1 dark:text-gray-300">
                 Organize and manage bill topics with drag-and-drop functionality
               </p>
             </div>
             <div className="flex items-center space-x-3">
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-gray-500 dark:text-gray-400">
                 {bills.length} total bills
               </span>
               <button
@@ -404,7 +404,7 @@ const Admin: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Controls */}
-        <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-sm border p-6 mb-6 dark:bg-gray-800 dark:border-gray-700">
           <div className="flex flex-wrap items-center justify-between gap-4">
             {/* Search */}
             <div className="flex-1 min-w-64">
@@ -415,7 +415,7 @@ const Admin: React.FC = () => {
                   placeholder="Search bills..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                 />
               </div>
             </div>
@@ -423,12 +423,12 @@ const Admin: React.FC = () => {
             {/* Selection Info */}
             {selectedBills.length > 0 && (
               <div className="flex items-center space-x-3">
-                <span className="text-sm font-medium text-gray-700">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                   {selectedBills.length} bills selected
                 </span>
                 <button
                   onClick={clearSelection}
-                  className="text-sm text-gray-500 hover:text-gray-700"
+                  className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                 >
                   Clear
                 </button>
@@ -470,17 +470,17 @@ const Admin: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              className="mt-4 p-4 bg-gray-50 rounded-lg"
+              className="mt-4 p-4 bg-gray-50 rounded-lg dark:bg-gray-700"
             >
               {bulkOperation === 'move' && (
                 <div className="flex items-center space-x-3">
-                  <label className="text-sm font-medium text-gray-700">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
                     Move {selectedBills.length} bills to:
                   </label>
                   <select
                     value={targetTopic}
                     onChange={(e) => setTargetTopic(e.target.value)}
-                    className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500"
+                    className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:text-white"
                   >
                     <option value="">Select topic...</option>
                     {allTopics.map(topic => (
@@ -492,7 +492,7 @@ const Admin: React.FC = () => {
                     placeholder="Or create new topic..."
                     value={targetTopic}
                     onChange={(e) => setTargetTopic(e.target.value)}
-                    className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500"
+                    className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400"
                   />
                   <button
                     onClick={bulkMoveBills}
@@ -512,7 +512,7 @@ const Admin: React.FC = () => {
 
               {bulkOperation === 'remove' && (
                 <div className="flex items-center space-x-3">
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                     Remove all topics from {selectedBills.length} bills?
                   </span>
                   <button
@@ -540,20 +540,20 @@ const Admin: React.FC = () => {
             <motion.div
               key={group.topic}
               layout
-              className={`bg-white rounded-lg shadow-sm border transition-all duration-200 ${
-                dragOverTopic === group.topic ? 'ring-2 ring-primary-500 bg-primary-50' : ''
+              className={`bg-white rounded-lg shadow-sm border transition-all duration-200 dark:bg-gray-800 dark:border-gray-700 ${
+                dragOverTopic === group.topic ? 'ring-2 ring-primary-500 bg-primary-50 dark:bg-primary-900' : ''
               }`}
               onDragOver={(e) => handleDragOver(e, group.topic)}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, group.topic)}
             >
               {/* Topic Header */}
-              <div className="p-4 border-b border-gray-200">
+              <div className="p-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <button
                       onClick={() => toggleTopicExpansion(group.topic)}
-                      className="text-gray-500 hover:text-gray-700"
+                      className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                     >
                       {expandedTopics.has(group.topic) ? (
                         <ChevronUp size={20} />
@@ -573,7 +573,7 @@ const Admin: React.FC = () => {
                               renameTopic(group.topic, editTopicName);
                             }
                           }}
-                          className="px-2 py-1 border border-gray-300 rounded text-lg font-semibold"
+                          className="px-2 py-1 border border-gray-300 rounded text-lg font-semibold dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                           autoFocus
                         />
                         <button
@@ -584,7 +584,7 @@ const Admin: React.FC = () => {
                         </button>
                         <button
                           onClick={() => setEditingTopic(null)}
-                          className="text-gray-600 hover:text-gray-700"
+                          className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                         >
                           <X size={16} />
                         </button>
@@ -592,10 +592,10 @@ const Admin: React.FC = () => {
                     ) : (
                       <div className="flex items-center space-x-2">
                         <Tag size={20} className="text-primary-600" />
-                        <h3 className="text-lg font-semibold text-gray-900">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                           {group.topic}
                         </h3>
-                        <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-sm">
+                        <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-sm dark:bg-gray-700 dark:text-gray-200">
                           {group.count}
                         </span>
                       </div>
@@ -616,7 +616,7 @@ const Admin: React.FC = () => {
                             setEditingTopic(group.topic);
                             setEditTopicName(group.topic);
                           }}
-                          className="text-gray-500 hover:text-gray-700"
+                          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                         >
                           <Edit2 size={16} />
                         </button>
@@ -650,8 +650,8 @@ const Admin: React.FC = () => {
                           onDragStart={() => handleDragStart(bill)}
                           className={`p-3 border rounded-lg cursor-move hover:shadow-md transition-all ${
                             selectedBills.includes(bill.id)
-                              ? 'border-primary-500 bg-primary-50'
-                              : 'border-gray-200 bg-white'
+                              ? 'border-primary-500 bg-primary-50 dark:border-primary-700 dark:bg-primary-900'
+                              : 'border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800'
                           }`}
                           onClick={() => toggleBillSelection(bill.id)}
                         >
@@ -661,7 +661,7 @@ const Admin: React.FC = () => {
                                 type="checkbox"
                                 checked={selectedBills.includes(bill.id)}
                                 onChange={() => toggleBillSelection(bill.id)}
-                                className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                                className="rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:checked:bg-primary-600 dark:focus:ring-primary-500"
                                 onClick={(e) => e.stopPropagation()}
                               />
                               <span className="text-sm font-medium text-primary-600">
@@ -671,7 +671,7 @@ const Admin: React.FC = () => {
                             <Move size={16} className="text-gray-400" />
                           </div>
                           
-                          <h4 className="text-sm font-medium text-gray-900 mb-2 line-clamp-2">
+                          <h4 className="text-sm font-medium text-gray-900 mb-2 line-clamp-2 dark:text-white">
                             {bill.title}
                           </h4>
                           
@@ -679,7 +679,7 @@ const Admin: React.FC = () => {
                             {bill.topics?.map((topic) => (
                               <span
                                 key={topic}
-                                className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-700"
+                                className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200"
                               >
                                 {topic}
                                 {group.topic !== 'Untagged' && (
@@ -688,7 +688,7 @@ const Admin: React.FC = () => {
                                       e.stopPropagation();
                                       removeTopicFromBill(bill.id, topic);
                                     }}
-                                    className="ml-1 text-gray-500 hover:text-red-500"
+                                    className="ml-1 text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400"
                                   >
                                     <X size={12} />
                                   </button>
@@ -697,7 +697,7 @@ const Admin: React.FC = () => {
                             ))}
                           </div>
                           
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
                             {bill.status} • {bill.chamber}
                           </div>
                         </motion.div>
@@ -711,10 +711,10 @@ const Admin: React.FC = () => {
         </div>
 
         {filteredGroups.length === 0 && (
-          <div className="text-center py-12">
+          <div className="text-center py-12 dark:text-gray-400">
             <FileText size={48} className="mx-auto text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No bills found</h3>
-            <p className="text-gray-600">
+            <h3 className="text-lg font-medium text-gray-900 mb-2 dark:text-white">No bills found</h3>
+            <p className="text-gray-600 dark:text-gray-300">
               {searchQuery ? 'Try adjusting your search terms.' : 'No bills match the current filters.'}
             </p>
           </div>
@@ -735,15 +735,15 @@ const Admin: React.FC = () => {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-lg p-6 w-full max-w-md mx-4"
+              className="bg-white rounded-lg p-6 w-full max-w-md mx-4 dark:bg-gray-800"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 dark:text-white">
                 Create New Topic
               </h3>
               
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-200">
                   Topic Name
                 </label>
                 <input
@@ -756,13 +756,13 @@ const Admin: React.FC = () => {
                     }
                   }}
                   placeholder="Enter topic name..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                   autoFocus
                 />
               </div>
 
               <div className="mb-4">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-300">
                   {selectedBills.length > 0 
                     ? `This topic will be added to ${selectedBills.length} selected bills.`
                     : 'Please select bills first to add them to the new topic.'
@@ -773,7 +773,7 @@ const Admin: React.FC = () => {
               <div className="flex justify-end space-x-3">
                 <button
                   onClick={() => setShowNewTopicModal(false)}
-                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50"
+                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
                 >
                   Cancel
                 </button>
